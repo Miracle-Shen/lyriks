@@ -8,14 +8,14 @@ const initialState = {
   isActive: false,       // 播放器是否激活（是否有歌曲被选中）
   isPlaying: false,      // 是否正在播放音乐
   activeSong: {},        // 当前活跃的歌曲对象
-  genreListId: '',       // 选中的音乐类型ID（如：流行、摇滚等）
+  genreListId: 'DZ',       // 选中的音乐类型ID（如：流行、摇滚等）
 };
 
 // 创建播放器 slice，包含状态和操作
 const playerSlice = createSlice({
-  name: 'player',        // slice 的名称，用于调试
-  initialState,          // 使用上面定义的初始状态
-  reducers: {            // 定义所有的状态更新操作
+  name: 'player',
+  initialState,
+  reducers: {
     // 设置当前活跃的歌曲
     setActiveSong: (state, action) => {
       // 设置当前播放的歌曲
