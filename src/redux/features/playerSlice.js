@@ -8,7 +8,7 @@ const initialState = {
   isActive: false,       // 播放器是否激活（是否有歌曲被选中）
   isPlaying: false,      // 是否正在播放音乐
   activeSong: {},        // 当前活跃的歌曲对象
-  genreListId: 'DZ',       // 选中的音乐类型ID（如：流行、摇滚等）
+  genreListId: '',       // 选中的音乐类型ID（如：流行、摇滚等）
 };
 
 // 创建播放器 slice，包含状态和操作

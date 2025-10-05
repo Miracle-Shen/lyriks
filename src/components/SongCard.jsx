@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import {useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 import PlayPause from './PlayPause';
 import { playPause, setActiveSong } from '../redux/features/playerSlice';
 
@@ -18,9 +18,11 @@ const SongCard = ({ song, i, isPlaying, activeSong, data }) => {
   return (
     <div className="flex flex-col w-[250px] p-4 bg-white/5 bg-opacity-80 backdrop-blur-sm animate-slideup rounded-lg cursor-pointer">
       <div className="relative w-full h-56 group">
-        <div className={`absolute inset-0 justify-center items-center bg-black bg-opacity-50 
+        <div
+          className={`absolute inset-0 justify-center items-center bg-black bg-opacity-50 
         group-hover:flex 
-          ${activeSong?.attributes === song.attributes.albumName ? 'flex bg-black bg-opacity-70' : 'hidden'}`}>
+          ${activeSong?.id === song.id ? 'flex bg-black bg-opacity-70' : 'hidden'}`}
+        >
           <PlayPause
             song={song}
             activeSong={activeSong}
@@ -29,18 +31,18 @@ const SongCard = ({ song, i, isPlaying, activeSong, data }) => {
             handlePlay={handlePlayClick}
           />
         </div>
-        <img alt="song_img" src={song.attributes.artwork?.url} className="w-full h-full rounded-lg" />
+        <img alt="song_img" src={song.attributes?.artwork?.url} className="w-full h-full rounded-lg" />
       </div>
 
       <div className="mt-4 flex flex-col">
         <p className="font-semibold text-lg text-white truncate">{/* 标题太长 截断truncate */}
           <Link to={`/songs/${song?.href}`}>
-            {song.attributes.albumName}
+            {song.attributes?.name || song.attributes?.albumName}
           </Link>
-        </p> 
+        </p>
         <p className="text-sm truncate text-gray-300 mt-1">
-          <Link to={song.artistName ? `/artists/${song.artistName[0]?.adamid}` : '/top-artists'}>
-            {song.artistName}
+          <Link to={song.attributes?.artistName ? `/artists/${song.relationships?.artists?.data?.[0]?.id}` : '/top-artists'}>
+            {song.attributes?.artistName}
           </Link>
         </p>
       </div>
