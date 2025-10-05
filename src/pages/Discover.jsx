@@ -5,13 +5,12 @@ import { genres } from '../assets/constants';
 import { useGetTopChartsQuery, useGetSongsByGenreQuery } from '../redux/services/shazamCore';
 import { selectGenreListId } from '../redux/features/playerSlice';
 
-// Discover页面组件定义
 const Discover = () => {
   const dispatch = useDispatch();
   const divRef = useRef(null);
   const { isPlaying, activeSong } = useSelector((state) => state.player);
   const { genreListId } = useSelector((state) => state.player);
-/*   debugger; */
+
   const defaultCountry = 'DZ';
   useEffect(() => {
     divRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -56,18 +55,17 @@ const Discover = () => {
   }, [data, cacheKey]);
 
   // 从缓存读取作为回退
-  let dataset = data;
-  if (!dataset) {
+  if (!data) {
     try {
       const cached = localStorage.getItem(cacheKey);
-      if (cached) dataset = JSON.parse(cached);
+      if (cached) data = JSON.parse(cached);
     } catch (e) {
       // 忽略解析异常
     }
   }
 
   // 安全处理数据：确保songs始终是数组
-  const songs = Array.isArray(dataset) ? dataset : (dataset?.tracks ?? []);
+  const songs = Array.isArray(data) ? data : (data?.tracks ?? []);
   /* console.log('songs', JSON.stringify(songs,null,2)); */
   if (isFetching) return <Loader title="Loading songs..." />;
   if (error) return <Error />;
@@ -98,7 +96,6 @@ const Discover = () => {
       <div className="flex flex-row flex-wrap gap-4">
         {songs.map((song) => (
           <SongCard
-            key={song.id}
             data={songs}
             song={song}
             i={song.id}

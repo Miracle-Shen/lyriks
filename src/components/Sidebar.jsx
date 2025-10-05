@@ -30,7 +30,7 @@ const Sidebar = () => {
   return (
     <>
       {/* 移动端菜单控制器（中等屏幕以下显示） */}
-      <div className="absolute md:hidden block top-6 right-3">
+      <div className="absolute block top-6 right-3">
         {/* 根据菜单状态切换图标 */}
         {mobileMenuOpen ? (
           <RiCloseLine
@@ -45,7 +45,7 @@ const Sidebar = () => {
 
       <div className={`absolute top-0 h-screen w-2/3 
         bg-gradient-to-tl from-white/10 to-[#483d8b] 
-        backdrop-blur-lg z-10 p-6 md:hidden 
+        backdrop-blur-lg z-10 p-6
         smooth-transition ${mobileMenuOpen ? 'left-0' : '-left-full'}`}
       >
         <img src={logo} alt="logo" className="w-full h-14 object-contain" />

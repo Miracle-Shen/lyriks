@@ -16,8 +16,8 @@ const SongCard = ({ song, i, isPlaying, activeSong, data }) => {
   };
 
   return (
-    <div className="flex flex-col w-[250px] p-4 bg-white/5 bg-opacity-80 backdrop-blur-sm animate-slideup rounded-lg cursor-pointer">
-      <div className="relative w-full h-56 group">
+    <div className="flex flex-col w-[220px] p-3 bg-white/5 backdrop-blur-sm rounded-lg cursor-pointer">
+      <div className="relative w-full sm:aspect-square lg:aspect-[3/4] group overflow-hidden rounded-lg">
         <div
           className={`absolute inset-0 justify-center items-center bg-black bg-opacity-50 
         group-hover:flex 
@@ -35,12 +35,12 @@ const SongCard = ({ song, i, isPlaying, activeSong, data }) => {
       </div>
 
       <div className="mt-4 flex flex-col">
-        <p className="font-semibold text-lg text-white truncate">{/* 标题太长 截断truncate */}
+        <p className="font-semibold sm:text-base md:text-lg text-white truncate">{/* 标题太长 截断truncate */}
           <Link to={`/songs/${song?.href}`}>
             {song.attributes?.name || song.attributes?.albumName}
           </Link>
         </p>
-        <p className="text-sm truncate text-gray-300 mt-1">
+        <p className="sm:text-xs md:text-sm truncate text-gray-300 mt-1">
           <Link to={song.attributes?.artistName ? `/artists/${song.relationships?.artists?.data?.[0]?.id}` : '/top-artists'}>
             {song.attributes?.artistName}
           </Link>
