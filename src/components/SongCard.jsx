@@ -16,7 +16,8 @@ const SongCard = ({ song, i, isPlaying, activeSong, data }) => {
   };
 
   return (
-    <div className="flex flex-col w-[220px] p-3 bg-white/5 backdrop-blur-sm rounded-lg cursor-pointer">
+    <div className="flex flex-col w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 
+                 max-w-[180px] p-3 bg-white/5 backdrop-blur-sm rounded-lg cursor-pointer">
       <div className="relative w-full sm:aspect-square lg:aspect-[3/4] group overflow-hidden rounded-lg">
         <div
           className={`absolute inset-0 justify-center items-center bg-black bg-opacity-50 
