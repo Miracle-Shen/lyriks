@@ -4,6 +4,9 @@ import { Error, Loader, SongCard } from '../components';
 import { genres } from '../assets/constants';
 import { useGetTopChartsQuery, useGetSongsByGenreQuery } from '../redux/services/shazamCore';
 import { selectGenreListId } from '../redux/features/playerSlice';
+import { FixedSizeGrid as Grid } from 'react-window';
+
+import AutoSizer from "react-virtualized-auto-sizer"; 
 
 const Discover = () => {
   const dispatch = useDispatch();
@@ -71,7 +74,7 @@ const Discover = () => {
   if (error) return <Error />;
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col  h-screen gap-2">
       <div ref={divRef} className="w-full flex flex-col gap-2">
         <h2 className="mt-4 font-bold text-3xl text-white">  Discover {genreListId || 'Top'}</h2>
 
@@ -93,7 +96,7 @@ const Discover = () => {
       </div>
 
       {/* 歌曲列表区域（flex 多行换行） */}
-      <div className="flex flex-row flex-wrap gap-4">
+      {/* <div className="flex flex-row flex-wrap gap-4">
         {songs.map((song) => (
           <SongCard
             data={songs}
@@ -103,6 +106,48 @@ const Discover = () => {
             activeSong={activeSong}
           />
         ))}
+      </div> */}
+      <div className="flex  flex-1">
+        <AutoSizer>
+          {({ height, width }) => {
+            const cardWidth = 160;
+            const cardHeight = 220;
+            const gap = 20;
+
+            const columnWidth = cardWidth + 10;
+            const rowHeight = cardHeight + gap;
+
+            const columnCount = Math.floor(width / columnWidth) || 1; // 每个卡片大约180px宽
+            const rowCount = Math.ceil(songs.length / columnCount);
+            return (
+              <Grid
+                columnCount={columnCount}
+                columnWidth={columnWidth}
+                height={height}
+                rowCount={rowCount}
+                rowHeight={rowHeight}
+                width={width}
+              >
+                {({ columnIndex, rowIndex, style }) => {
+                  const songIndex = rowIndex * columnCount + columnIndex;
+                  const song = songs[songIndex];
+                  if (!song) return null;
+                  return (
+                    <div style={style} key={song.id} className="p-2">
+                      <SongCard
+                        data={songs}
+                        song={song}
+                        i={song.id}
+                        isPlaying={isPlaying}
+                        activeSong={activeSong}
+                      />
+                    </div>
+                  );
+                }}
+              </Grid>
+            );
+          }}
+        </AutoSizer>
       </div>
     </div>
   );
