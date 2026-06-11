@@ -1,18 +1,18 @@
 import { useSelector } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
 
-import { Searchbar, Sidebar, MusicPlayer, TopPlay } from './components';
+import { Sidebar, MusicPlayer, FloatingBeatMascot } from './components';
 import { ArtistDetails, TopArtists, AroundYou, Discover, Search, SongDetails, TopCharts } from './pages';
 
 const App = () => {
   const { activeSong } = useSelector((state) => state.player);
 
   return (
-    <div className="relative flex">
+    <div className="cinematic-app-shell relative flex min-h-screen overflow-hidden">
+      <FloatingBeatMascot />
       <Sidebar />
-      <div className="flex-1 flex flex-col bg-gradient-to-br from-black to-[#121286]">
- {/*        <Searchbar */}
-        <div className="px-6 h-screen overflow-y-scroll hide-scrollbar flex flex-col-reverse">
+      <div className="cinematic-content-surface flex-1 flex flex-col">
+        <div className="relative z-[1] px-6 h-screen overflow-y-scroll hide-scrollbar flex flex-col-reverse">
           <div className="h-fit">
             <Routes>
               <Route path="/" element={<Discover />} />
@@ -24,14 +24,11 @@ const App = () => {
               <Route path="/search/:searchTerm" element={<Search />} />
             </Routes>
           </div>
-          {/* <div className="xl:sticky relative top-0 h-fit">
-            {<TopPlay />}
-          </div> */}
         </div>
       </div>
 
       {activeSong?.attributes?.name && (
-        <div className="absolute h-28 bottom-0 left-0 right-0 flex animate-slideup bg-gradient-to-br from-white/10 to-[#2a2a80] backdrop-blur-lg rounded-t-3xl z-10">
+        <div className="cinematic-player-bar absolute h-28 bottom-0 left-0 right-0 flex animate-slideup rounded-t-3xl z-10">
           <MusicPlayer />
         </div>
       )}

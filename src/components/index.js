@@ -7,6 +7,7 @@ import DetailsHeader from './DetailsHeader';
 import SongBar from './SongBar';
 import RelatedSongs from './RelatedSongs';
 import MusicPlayer from './MusicPlayer';
+import FloatingBeatMascot from './FloatingBeatMascot';
 import Loader from './Loader';
 import Error from './Error';
 
@@ -20,6 +21,7 @@ export {
   SongBar,
   RelatedSongs,
   MusicPlayer,
+  FloatingBeatMascot,
   Loader,
   Error,
 };

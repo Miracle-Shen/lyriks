@@ -5,14 +5,17 @@ import { Provider } from 'react-redux';
 
 import './index.css';
 import App from './App';
+import { AudioPlayerProvider } from './contexts/AudioPlayerContext';
 import { store } from './redux/store';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>
-      <Router>
-        <App />
-      </Router>
+      <AudioPlayerProvider>
+        <Router>
+          <App />
+        </Router>
+      </AudioPlayerProvider>
     </Provider>
   </React.StrictMode>,
 );

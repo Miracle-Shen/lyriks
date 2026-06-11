@@ -1,8 +1,11 @@
 /* eslint-disable jsx-a11y/media-has-caption */
-import React, { useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
+
+import { useAudioPlayer } from '../../contexts/AudioPlayerContext';
 
 const Player = ({ activeSong, isPlaying, volume, seekTime, onEnded, onTimeUpdate, onLoadedData, repeat }) => {
   const ref = useRef(null);
+  const { setAudioElement } = useAudioPlayer();
   // eslint-disable-next-line no-unused-expressions
   if (ref.current) {
     if (isPlaying) {
@@ -20,10 +23,19 @@ const Player = ({ activeSong, isPlaying, volume, seekTime, onEnded, onTimeUpdate
     ref.current.currentTime = seekTime;
   }, [seekTime]);
 
+  useEffect(() => {
+    setAudioElement(ref.current);
+
+    return () => {
+      setAudioElement(null);
+    };
+  }, [setAudioElement]);
+
   return (
     <audio
       src={activeSong?.attributes?.previews?.[0]?.url}
       ref={ref}
+      crossOrigin="anonymous"
       loop={repeat}
       onEnded={onEnded}
       onTimeUpdate={onTimeUpdate}
