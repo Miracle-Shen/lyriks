@@ -296,6 +296,21 @@ const renderSlimeMascot = (isPlaying) => (
   </svg>
 );
 
+const renderTravelOutfit = () => (
+  <svg viewBox="0 0 120 120" className="pointer-events-none absolute inset-0 h-28 w-28">
+    <path d="M39 36c6-7.5 29-10 42-2 2.8 1.7 2.5 6.1-0.6 7.2-12.1 4.5-25.2 5.3-39.7 2.2-3.6-0.8-4-4.6-1.7-7.4z" fill="#38bdf8" />
+    <path d="M45 32c5.6-5.2 19.1-7.3 29.5-2.7l-0.6 5.7c-10.1-2.9-19.4-1.6-27.9 2.9z" fill="#fef3c7" />
+    <path d="M53 28.5c5.4-2.7 12.1-3.2 18.5-1.1l-0.5 4.3c-6.1-1.6-11.8-1.2-17.2 1.1z" fill="#fb7185" opacity="0.95" />
+    <path d="M30 73c9 7.6 45.9 8.6 60 0 1.7 6.6 0.7 14.3-4.2 19.2-7.6 7.6-43.7 7.6-51.4 0-4.9-4.9-6-12.6-4.4-19.2z" fill="#fde68a" opacity="0.96" />
+    <path d="M36 79c10.8 4.6 36.5 5.2 48.4 0.1" stroke="#0f766e" strokeWidth="4.4" strokeLinecap="round" fill="none" />
+    <path d="M45 78v17M75 79v17" stroke="#f97316" strokeWidth="4" strokeLinecap="round" opacity="0.8" />
+    <path d="M31 70c6 4.2 14 6.1 24 5.6" stroke="#fef3c7" strokeWidth="5" strokeLinecap="round" fill="none" />
+    <path d="M89 70c-6 4.2-14 6.1-24 5.6" stroke="#fef3c7" strokeWidth="5" strokeLinecap="round" fill="none" />
+    <circle cx="88" cy="83" r="5.5" fill="#f97316" />
+    <path d="M85.5 82.8h5M88 80.3v5" stroke="#fff7ed" strokeWidth="1.6" strokeLinecap="round" />
+  </svg>
+);
+
 const mascotVariants = [
   {
     id: 'original',
@@ -359,6 +374,7 @@ const FloatingBeatMascot = () => {
   const [position, setPosition] = useState(getDefaultPosition);
   const [isDragging, setIsDragging] = useState(false);
   const [mascotIndex, setMascotIndex] = useState(0);
+  const [hasTravelOutfit, setHasTravelOutfit] = useState(false);
   const [motion, setMotion] = useState({
     bounce: 0.12,
     glow: 0.18,
@@ -552,6 +568,11 @@ const FloatingBeatMascot = () => {
     event.currentTarget.setPointerCapture?.(event.pointerId);
   }, []);
 
+  const handleTravelOutfitToggle = useCallback((event) => {
+    event.stopPropagation();
+    setHasTravelOutfit((currentValue) => !currentValue);
+  }, []);
+
   useEffect(() => {
     const handlePointerMove = (event) => {
       if (!dragStateRef.current.active || dragStateRef.current.pointerId !== event.pointerId) return;
@@ -633,12 +654,25 @@ const FloatingBeatMascot = () => {
             }}
           >
             {activeMascot.render(isPlaying)}
+            {hasTravelOutfit && renderTravelOutfit()}
           </div>
           <div className="mt-1 rounded-full border border-white/15 bg-slate-900/60 px-3 py-1 text-center text-[10px] leading-4 text-white/90 backdrop-blur-md">
             <p className="max-w-[132px] truncate text-[9px] uppercase tracking-[0.2em] text-white/55">{activeMascot.label}</p>
             <p className="max-w-[132px] truncate font-semibold">{songMeta.title}</p>
             <p className="max-w-[132px] truncate text-white/65">{songMeta.artist}</p>
             <p className="max-w-[132px] truncate text-white/45">{activeMascot.subtitle} · 点击切换</p>
+            <button
+              type="button"
+              className={`mt-1 rounded-full px-2.5 py-0.5 text-[10px] font-semibold transition ${
+                hasTravelOutfit
+                  ? 'bg-cyan-300 text-slate-950'
+                  : 'bg-white/12 text-white/85 hover:bg-white/20'
+              }`}
+              onClick={handleTravelOutfitToggle}
+              onPointerDown={(event) => event.stopPropagation()}
+            >
+              VIP 旅行衣
+            </button>
           </div>
         </div>
       </div>
