@@ -1,0 +1,68 @@
+<svg width="620" height="1376" viewBox="0 0 620 1376" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="620" y2="1376" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#9D5CE8"/>
+      <stop offset=".42" stop-color="#1779BA"/>
+      <stop offset="1" stop-color="#C94FB3"/>
+    </linearGradient>
+    <linearGradient id="card" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="rgba(255,255,255,.18)"/>
+      <stop offset="1" stop-color="rgba(255,255,255,.08)"/>
+    </linearGradient>
+    <style>
+      .h1{font:900 50px Arial,"PingFang SC",sans-serif;fill:#fff}
+      .sel{font:800 26px Arial,"PingFang SC",sans-serif;fill:#f7f4ff}
+      .song{font:800 27px Arial,"PingFang SC",sans-serif;fill:#fff}
+      .artist{font:700 26px Arial,"PingFang SC",sans-serif;fill:rgba(255,255,255,.72)}
+      .playerTitle{font:900 28px Arial,"PingFang SC",sans-serif;fill:#fff}
+      .playerArtist{font:700 25px Arial,"PingFang SC",sans-serif;fill:rgba(255,255,255,.72)}
+    </style>
+  </defs>
+  <rect width="620" height="1376" fill="url(#bg)"/>
+  <text x="32" y="68" class="h1">Discover Top</text>
+  <rect x="32" y="91" width="568" height="76" rx="14" fill="#12101F"/>
+  <text x="60" y="140" class="sel">推荐榜单</text>
+  <path d="M581 126L590 135L599 126" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <g opacity=".95">
+    <g transform="translate(48 194)">
+      <rect width="255" height="370" rx="12" fill="url(#card)"/>
+      <rect x="20" y="20" width="215" height="216" rx="12" fill="#313C45"/>
+      <path d="M74 58C104 30 155 26 184 58C214 91 190 158 126 161C67 164 45 86 74 58Z" fill="#DDEAFB"/>
+      <path d="M100 52C131 60 155 74 180 106C162 136 132 154 96 155C64 130 67 82 100 52Z" fill="#2D8DFF"/>
+      <text x="20" y="293" class="song">one of wun</text>
+      <text x="20" y="340" class="artist">Gunna</text>
+    </g>
+    <g transform="translate(329 194)">
+      <rect width="255" height="370" rx="12" fill="url(#card)"/>
+      <rect x="20" y="20" width="215" height="216" rx="12" fill="#2DD4BF"/>
+      <rect x="48" y="102" width="158" height="84" rx="8" fill="#F97316"/>
+      <path d="M64 110L92 70L126 110L160 68L190 110" stroke="#FFE9A6" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="20" y="293" class="song">Loco Contigo (...</text>
+      <text x="20" y="340" class="artist">DJ Snake &amp; J B...</text>
+    </g>
+    <g transform="translate(48 592)">
+      <rect width="255" height="370" rx="12" fill="url(#card)"/>
+      <rect x="20" y="20" width="215" height="216" rx="12" fill="#C9D7D1"/>
+      <rect x="20" y="116" width="104" height="36" fill="#EF4444"/>
+      <text x="20" y="293" class="song">Prada</text>
+      <text x="20" y="340" class="artist">cassö, RAYE &amp; ...</text>
+    </g>
+    <g transform="translate(329 592)">
+      <rect width="255" height="370" rx="12" fill="url(#card)"/>
+      <rect x="20" y="20" width="215" height="216" rx="12" fill="#090A10"/>
+      <text x="68" y="78" font-family="Arial" font-size="42" font-weight="900" fill="#565B66">AC/DC</text>
+      <ellipse cx="128" cy="204" rx="64" ry="56" fill="#FDEBD0"/>
+      <circle cx="105" cy="192" r="14" fill="#1E293B"/><circle cx="151" cy="192" r="14" fill="#1E293B"/>
+      <text x="20" y="293" class="song">Shoot to Thrill</text>
+      <text x="20" y="340" class="artist">AC/DC</text>
+    </g>
+  </g>
+  <rect x="594" y="180" width="6" height="284" rx="3" fill="rgba(255,255,255,.3)"/>
+  <rect x="0" y="1208" width="620" height="168" rx="28" fill="rgba(80,39,116,.82)" stroke="rgba(255,255,255,.25)" stroke-width="2"/>
+  <text x="48" y="1292" class="playerTitle">T.N.T.</text>
+  <text x="48" y="1337" class="playerArtist">AC/DC</text>
+  <path d="M382 1283L382 1321L420 1302L382 1283Z" fill="white"/>
+  <path d="M339 1288V1316M348 1302L372 1284V1320L348 1302Z" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M522 1288V1316M512 1284L536 1302L512 1320V1284Z" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+

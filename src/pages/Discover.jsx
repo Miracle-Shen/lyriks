@@ -77,7 +77,17 @@ const Discover = () => {
   return (
     <div className="flex flex-col  h-screen gap-2">
       <div ref={divRef} className="w-full flex flex-col gap-2">
-        <h2 className="mt-4 font-bold text-3xl text-white">  Discover {genreListId || 'Top'}</h2>
+        <div className="mt-4 flex items-center justify-between gap-3">
+          <h2 className="font-bold text-3xl text-white">  Discover {genreListId || 'Top'}</h2>
+          <a
+            href="/project-docs/情绪团子工作汇报.html"
+            target="_blank"
+            rel="noreferrer"
+            className="shrink-0 rounded-full border border-white/10 bg-white/10 px-2 py-1 text-[10px] font-semibold text-white/45 transition hover:border-white/20 hover:text-white/75"
+          >
+            方案
+          </a>
+        </div>
 
         {/* 音乐流派选择下拉框 */}
         <select

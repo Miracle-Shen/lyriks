@@ -1,0 +1,61 @@
+<svg width="632" height="1376" viewBox="0 0 632 1376" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="632" y2="1376" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#3A214E"/>
+      <stop offset=".45" stop-color="#0C3656"/>
+      <stop offset="1" stop-color="#3A174D"/>
+    </linearGradient>
+    <style>
+      .tiny{font:800 20px Arial,"PingFang SC",sans-serif;fill:rgba(255,255,255,.55)}
+      .title{font:900 34px Arial,"PingFang SC",sans-serif;fill:#fff}
+      .tab{font:900 24px Arial,"PingFang SC",sans-serif;fill:#F8FAFC}
+      .choiceTitle{font:900 24px Arial,"PingFang SC",sans-serif;fill:#F8FAFC}
+      .choiceDesc{font:800 20px Arial,"PingFang SC",sans-serif;fill:rgba(255,255,255,.52)}
+    </style>
+  </defs>
+  <rect width="632" height="1376" fill="url(#bg)"/>
+  <rect x="20" y="252" width="592" height="1104" rx="12" fill="#101827" stroke="rgba(255,255,255,.18)" stroke-width="2"/>
+  <text x="53" y="306" class="tiny">猫咪团子</text>
+  <text x="53" y="352" class="title">EMO · 深夜 EMO</text>
+  <rect x="530" y="292" width="60" height="60" rx="14" fill="rgba(255,255,255,.1)"/>
+  <path d="M550 312L572 334M572 312L550 334" stroke="white" stroke-opacity=".82" stroke-width="4" stroke-linecap="round"/>
+  <path d="M20 388H612" stroke="rgba(255,255,255,.12)" stroke-width="2"/>
+  <g transform="translate(53 408)">
+    <rect width="86" height="56" rx="10" fill="#103E51" stroke="#34D5EE" stroke-width="2"/>
+    <text x="21" y="38" class="tab">情绪</text>
+    <rect x="100" width="86" height="56" rx="10" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.18)" stroke-width="2"/>
+    <text x="121" y="38" class="tab" opacity=".72">动作</text>
+    <rect x="200" width="130" height="56" rx="10" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.18)" stroke-width="2"/>
+    <text x="220" y="38" class="tab" opacity=".72">皮肤套装</text>
+    <rect x="344" width="174" height="56" rx="10" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.18)" stroke-width="2"/>
+    <text x="364" y="38" class="tab" opacity=".72">更换宠物形象</text>
+  </g>
+  <path d="M20 484H612" stroke="rgba(255,255,255,.12)" stroke-width="2"/>
+  <g transform="translate(53 516)">
+    <rect width="260" height="120" rx="10" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.16)" stroke-width="2"/>
+    <text x="18" y="52" class="choiceTitle">平静</text><text x="18" y="90" class="choiceDesc">想安静下来</text>
+    <rect x="278" width="260" height="120" rx="10" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.16)" stroke-width="2"/>
+    <text x="296" y="52" class="choiceTitle">快乐</text><text x="296" y="90" class="choiceDesc">想保持好心情</text>
+    <rect y="140" width="260" height="120" rx="10" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.16)" stroke-width="2"/>
+    <text x="18" y="192" class="choiceTitle">治愈</text><text x="18" y="230" class="choiceDesc">想被安抚</text>
+    <rect x="278" y="140" width="260" height="120" rx="10" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.16)" stroke-width="2"/>
+    <text x="296" y="192" class="choiceTitle">放松</text><text x="296" y="230" class="choiceDesc">想松弛休息</text>
+    <rect y="280" width="260" height="120" rx="10" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.16)" stroke-width="2"/>
+    <text x="18" y="332" class="choiceTitle">低落</text><text x="18" y="370" class="choiceDesc">想承认情绪</text>
+    <rect x="278" y="280" width="260" height="120" rx="10" fill="#123D51" stroke="#34D5EE" stroke-width="2"/>
+    <text x="296" y="332" class="choiceTitle">EMO</text><text x="296" y="370" class="choiceDesc">想沉浸情绪</text>
+    <rect y="420" width="260" height="120" rx="10" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.16)" stroke-width="2"/>
+    <text x="18" y="472" class="choiceTitle">浪漫</text><text x="18" y="510" class="choiceDesc">想进入亲密氛围</text>
+    <rect x="278" y="420" width="260" height="120" rx="10" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.16)" stroke-width="2"/>
+    <text x="296" y="472" class="choiceTitle">怀旧</text><text x="296" y="510" class="choiceDesc">想回到旧时刻</text>
+    <rect y="560" width="260" height="120" rx="10" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.16)" stroke-width="2"/>
+    <text x="18" y="612" class="choiceTitle">元气</text><text x="18" y="650" class="choiceDesc">想被唤醒</text>
+    <rect x="278" y="560" width="260" height="120" rx="10" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.16)" stroke-width="2"/>
+    <text x="296" y="612" class="choiceTitle">专注</text><text x="296" y="650" class="choiceDesc">想稳定注意力</text>
+    <rect y="700" width="260" height="120" rx="10" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.16)" stroke-width="2"/>
+    <text x="18" y="752" class="choiceTitle">孤独</text><text x="18" y="790" class="choiceDesc">想独处</text>
+    <rect x="278" y="700" width="260" height="120" rx="10" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.16)" stroke-width="2"/>
+    <text x="296" y="752" class="choiceTitle">幸运</text><text x="296" y="790" class="choiceDesc">想获得积极暗示</text>
+  </g>
+</svg>
+

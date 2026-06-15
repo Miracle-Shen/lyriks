@@ -1,0 +1,203 @@
+<svg width="1440" height="1800" viewBox="0 0 1440 1800" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .title{font:800 26px Arial,"PingFang SC",sans-serif;fill:#fff}
+      .label{font:800 18px Arial,"PingFang SC",sans-serif;fill:#fff}
+      .small{font:700 14px Arial,"PingFang SC",sans-serif;fill:rgba(255,255,255,.72)}
+      .tiny{font:700 12px Arial,"PingFang SC",sans-serif;fill:rgba(255,255,255,.58)}
+      .card{rx:28;stroke:rgba(255,255,255,.22);stroke-width:1}
+      .stage{rx:22;fill:rgba(255,255,255,.13)}
+      .energyBg{fill:rgba(255,255,255,.24)}
+      .petEye{fill:#1e1b4b}
+    </style>
+    <linearGradient id="pageBg" x1="0" y1="0" x2="1440" y2="1800" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#22105D"/>
+      <stop offset=".45" stop-color="#0C6EA7"/>
+      <stop offset="1" stop-color="#FF4FA3"/>
+    </linearGradient>
+    <linearGradient id="energy" x1="0" y1="0" x2="270" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#25D7FF"/>
+      <stop offset=".55" stop-color="#FF4FA3"/>
+      <stop offset="1" stop-color="#FFE259"/>
+    </linearGradient>
+    <linearGradient id="petBlue" x1="0" y1="0" x2="100" y2="95" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#C4B5FD"/>
+      <stop offset="1" stop-color="#38BDF8"/>
+    </linearGradient>
+    <linearGradient id="petPink" x1="0" y1="0" x2="100" y2="95" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FBCFE8"/>
+      <stop offset="1" stop-color="#FB7185"/>
+    </linearGradient>
+    <linearGradient id="petGreen" x1="0" y1="0" x2="100" y2="95" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#BBF7D0"/>
+      <stop offset="1" stop-color="#22D3EE"/>
+    </linearGradient>
+  </defs>
+  <rect width="1440" height="1800" fill="url(#pageBg)"/>
+  <circle cx="240" cy="120" r="220" fill="#FF5BB1" opacity=".25"/>
+  <circle cx="1190" cy="160" r="260" fill="#25D7FF" opacity=".25"/>
+  <circle cx="740" cy="1680" r="360" fill="#FFE259" opacity=".12"/>
+  <text x="60" y="72" class="title">情绪团子 · 12 种情绪小游戏场景原型总览</text>
+  <text x="60" y="110" class="small">每个场景均保留：宠物、掉落物、能量条、播放触发。具体美术可后续替换为 PixiJS/Cocos 资源。</text>
+
+  <!-- Card helper manually placed: x 60/520/980, y 160... -->
+  <g transform="translate(60 160)">
+    <rect class="card" width="400" height="360" fill="#4B3D78"/>
+    <text x="24" y="40" class="label">EMO · 雨夜补给站</text>
+    <text x="24" y="66" class="tiny">雨滴音符 / 歌词碎片 / 共鸣光点</text>
+    <rect class="stage" x="24" y="88" width="352" height="210"/>
+    <path d="M42 102L5 298M78 102L40 298M116 102L78 298M156 102L118 298M196 102L158 298M236 102L198 298M276 102L238 298M316 102L278 298M356 102L318 298" stroke="#BFDFFF" stroke-opacity=".32" stroke-width="3"/>
+    <circle cx="315" cy="128" r="30" fill="#FEF3C7"/>
+    <rect x="166" y="167" width="86" height="28" rx="14" fill="#BFDBFE" opacity=".55"/>
+    <ellipse cx="200" cy="234" rx="56" ry="50" fill="url(#petBlue)"/>
+    <circle class="petEye" cx="180" cy="226" r="6"/><circle class="petEye" cx="220" cy="226" r="6"/>
+    <path d="M190 248Q200 255 212 248" stroke="#312E81" stroke-width="4" stroke-linecap="round"/>
+    <rect x="245" y="236" width="22" height="42" rx="11" fill="#FBBF24" opacity=".85"/>
+    <rect class="energyBg" x="24" y="318" width="352" height="12" rx="6"/><rect x="24" y="318" width="320" height="12" rx="6" fill="url(#energy)"/>
+  </g>
+
+  <g transform="translate(520 160)">
+    <rect class="card" width="400" height="360" fill="#2F7F9A"/>
+    <text x="24" y="40" class="label">放松 · 海边漂流</text>
+    <text x="24" y="66" class="tiny">泡泡 / 贝壳 / 月光</text>
+    <rect class="stage" x="24" y="88" width="352" height="210"/>
+    <path d="M24 234C70 204 110 264 154 232C198 202 238 264 282 232C318 207 348 224 376 240V298H24V234Z" fill="#67E8F9" opacity=".55"/>
+    <circle cx="306" cy="130" r="25" fill="#FEF3C7"/>
+    <circle cx="82" cy="146" r="12" stroke="#E0F2FE" stroke-width="4"/><circle cx="320" cy="202" r="10" stroke="#E0F2FE" stroke-width="4"/>
+    <ellipse cx="198" cy="220" rx="58" ry="45" fill="url(#petGreen)"/>
+    <circle class="petEye" cx="178" cy="212" r="6"/><circle class="petEye" cx="218" cy="212" r="6"/>
+    <path d="M184 236Q199 246 216 236" stroke="#065F46" stroke-width="4" stroke-linecap="round"/>
+    <rect class="energyBg" x="24" y="318" width="352" height="12" rx="6"/><rect x="24" y="318" width="240" height="12" rx="6" fill="url(#energy)"/>
+  </g>
+
+  <g transform="translate(980 160)">
+    <rect class="card" width="400" height="360" fill="#EA5A8F"/>
+    <text x="24" y="40" class="label">快乐 · 彩盒彩纸派对</text>
+    <text x="24" y="66" class="tiny">彩纸 / 笑脸星 / KTV 光球</text>
+    <rect class="stage" x="24" y="88" width="352" height="210"/>
+    <circle cx="76" cy="136" r="16" fill="#FFE259"/><circle cx="322" cy="142" r="18" fill="#25D7FF"/><circle cx="288" cy="238" r="14" fill="#A78BFA"/>
+    <path d="M48 220C118 180 172 242 236 205C286 176 330 198 376 174" stroke="#FFE259" stroke-width="8" stroke-linecap="round" opacity=".65"/>
+    <ellipse cx="204" cy="220" rx="58" ry="52" fill="url(#petPink)"/>
+    <circle class="petEye" cx="184" cy="210" r="6"/><circle class="petEye" cx="224" cy="210" r="6"/>
+    <path d="M184 236Q204 254 226 236" stroke="#7F1D1D" stroke-width="5" stroke-linecap="round"/>
+    <rect class="energyBg" x="24" y="318" width="352" height="12" rx="6"/><rect x="24" y="318" width="302" height="12" rx="6" fill="url(#energy)"/>
+  </g>
+
+  <g transform="translate(60 560)">
+    <rect class="card" width="400" height="360" fill="#6C8BD9"/>
+    <text x="24" y="40" class="label">治愈 · 云朵修补屋</text>
+    <text x="24" y="66" class="tiny">棉花云 / 创可贴 / 柔光</text>
+    <rect class="stage" x="24" y="88" width="352" height="210"/>
+    <rect x="72" y="140" width="94" height="34" rx="17" fill="#E0F2FE" opacity=".76"/><rect x="216" y="126" width="112" height="38" rx="19" fill="#E0F2FE" opacity=".62"/>
+    <path d="M96 236L132 200L168 236" stroke="#BBF7D0" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+    <ellipse cx="218" cy="222" rx="60" ry="50" fill="url(#petGreen)"/>
+    <circle class="petEye" cx="198" cy="214" r="6"/><circle class="petEye" cx="238" cy="214" r="6"/>
+    <path d="M204 238Q218 248 234 238" stroke="#065F46" stroke-width="4" stroke-linecap="round"/>
+    <rect class="energyBg" x="24" y="318" width="352" height="12" rx="6"/><rect x="24" y="318" width="272" height="12" rx="6" fill="url(#energy)"/>
+  </g>
+
+  <g transform="translate(520 560)">
+    <rect class="card" width="400" height="360" fill="#64748B"/>
+    <text x="24" y="40" class="label">低落 · 灰蓝收纳箱</text>
+    <text x="24" y="66" class="tiny">小石子 / 纸团 / 暖灯火花</text>
+    <rect class="stage" x="24" y="88" width="352" height="210"/>
+    <rect x="58" y="236" width="284" height="42" rx="18" fill="#334155" opacity=".48"/>
+    <circle cx="104" cy="170" r="10" fill="#CBD5E1"/><circle cx="318" cy="144" r="8" fill="#FBBF24"/>
+    <ellipse cx="205" cy="218" rx="58" ry="48" fill="url(#petBlue)" opacity=".82"/>
+    <circle class="petEye" cx="185" cy="214" r="5"/><circle class="petEye" cx="225" cy="214" r="5"/>
+    <path d="M194 242Q205 235 216 242" stroke="#312E81" stroke-width="4" stroke-linecap="round"/>
+    <rect class="energyBg" x="24" y="318" width="352" height="12" rx="6"/><rect x="24" y="318" width="158" height="12" rx="6" fill="url(#energy)"/>
+  </g>
+
+  <g transform="translate(980 560)">
+    <rect class="card" width="400" height="360" fill="#9D4EDD"/>
+    <text x="24" y="40" class="label">浪漫 · 心动收信</text>
+    <text x="24" y="66" class="tiny">信笺 / 玫瑰光 / 心形光点</text>
+    <rect class="stage" x="24" y="88" width="352" height="210"/>
+    <path d="M96 132C96 108 132 104 144 128C156 104 192 108 192 132C192 162 144 184 144 184C144 184 96 162 96 132Z" fill="#FB7185"/>
+    <rect x="262" y="126" width="52" height="38" rx="8" fill="#FFF1F2"/><path d="M262 126L288 150L314 126" stroke="#FB7185" stroke-width="3"/>
+    <ellipse cx="202" cy="226" rx="58" ry="50" fill="url(#petPink)"/>
+    <circle class="petEye" cx="182" cy="218" r="6"/><circle class="petEye" cx="222" cy="218" r="6"/>
+    <path d="M188 242Q202 253 218 242" stroke="#831843" stroke-width="4" stroke-linecap="round"/>
+    <rect class="energyBg" x="24" y="318" width="352" height="12" rx="6"/><rect x="24" y="318" width="292" height="12" rx="6" fill="url(#energy)"/>
+  </g>
+
+  <g transform="translate(60 960)">
+    <rect class="card" width="400" height="360" fill="#F97316"/>
+    <text x="24" y="40" class="label">元气 · 节拍充电站</text>
+    <text x="24" y="66" class="tiny">星星 / 能量球 / 节拍火花</text>
+    <rect class="stage" x="24" y="88" width="352" height="210"/>
+    <path d="M86 132L98 158L126 160L104 178L112 206L86 190L60 206L68 178L46 160L74 158Z" fill="#FFE259"/>
+    <circle cx="300" cy="146" r="22" fill="#25D7FF"/><path d="M280 230H326" stroke="#FFE259" stroke-width="9" stroke-linecap="round"/>
+    <ellipse cx="200" cy="226" rx="60" ry="52" fill="url(#petGreen)"/>
+    <circle class="petEye" cx="180" cy="216" r="6"/><circle class="petEye" cx="220" cy="216" r="6"/>
+    <path d="M182 240Q200 258 224 240" stroke="#065F46" stroke-width="5" stroke-linecap="round"/>
+    <rect class="energyBg" x="24" y="318" width="352" height="12" rx="6"/><rect x="24" y="318" width="334" height="12" rx="6" fill="url(#energy)"/>
+  </g>
+
+  <g transform="translate(520 960)">
+    <rect class="card" width="400" height="360" fill="#1E5C7A"/>
+    <text x="24" y="40" class="label">专注 · 书桌整理</text>
+    <text x="24" y="66" class="tiny">书页 / 时钟碎片 / 灵感点</text>
+    <rect class="stage" x="24" y="88" width="352" height="210"/>
+    <rect x="60" y="228" width="280" height="22" rx="8" fill="#0F172A" opacity=".52"/>
+    <rect x="84" y="150" width="58" height="74" rx="6" fill="#BFDBFE"/><rect x="258" y="148" width="58" height="74" rx="29" fill="#F8FAFC"/><path d="M287 164V184L300 194" stroke="#1E3A8A" stroke-width="4" stroke-linecap="round"/>
+    <ellipse cx="198" cy="214" rx="56" ry="48" fill="url(#petBlue)"/>
+    <circle class="petEye" cx="178" cy="206" r="5"/><circle class="petEye" cx="218" cy="206" r="5"/>
+    <path d="M188 232H210" stroke="#312E81" stroke-width="4" stroke-linecap="round"/>
+    <rect class="energyBg" x="24" y="318" width="352" height="12" rx="6"/><rect x="24" y="318" width="212" height="12" rx="6" fill="url(#energy)"/>
+  </g>
+
+  <g transform="translate(980 960)">
+    <rect class="card" width="400" height="360" fill="#2D4E86"/>
+    <text x="24" y="40" class="label">平静 · 月光呼吸</text>
+    <text x="24" y="66" class="tiny">月光粒子 / 云朵 / 白噪音球</text>
+    <rect class="stage" x="24" y="88" width="352" height="210"/>
+    <circle cx="300" cy="126" r="34" fill="#FEF3C7"/><rect x="72" y="162" width="120" height="32" rx="16" fill="#E0F2FE" opacity=".6"/>
+    <circle cx="112" cy="236" r="9" fill="#E0E7FF"/><circle cx="318" cy="226" r="7" fill="#E0E7FF"/>
+    <ellipse cx="202" cy="224" rx="58" ry="48" fill="url(#petBlue)"/>
+    <circle class="petEye" cx="182" cy="216" r="5"/><circle class="petEye" cx="222" cy="216" r="5"/>
+    <path d="M190 238Q202 246 216 238" stroke="#312E81" stroke-width="4" stroke-linecap="round"/>
+    <rect class="energyBg" x="24" y="318" width="352" height="12" rx="6"/><rect x="24" y="318" width="236" height="12" rx="6" fill="url(#energy)"/>
+  </g>
+
+  <g transform="translate(60 1360)">
+    <rect class="card" width="400" height="360" fill="#A16207"/>
+    <text x="24" y="40" class="label">怀旧 · 旧唱片修复</text>
+    <text x="24" y="66" class="tiny">磁带 / 老照片 / 黑胶星尘</text>
+    <rect class="stage" x="24" y="88" width="352" height="210"/>
+    <circle cx="112" cy="170" r="42" fill="#111827"/><circle cx="112" cy="170" r="14" fill="#FDE68A"/>
+    <rect x="246" y="144" width="70" height="48" rx="8" fill="#FEF3C7"/><path d="M254 156H308M254 172H290" stroke="#92400E" stroke-width="4" stroke-linecap="round"/>
+    <ellipse cx="204" cy="230" rx="58" ry="48" fill="url(#petPink)" opacity=".9"/>
+    <circle class="petEye" cx="184" cy="222" r="5"/><circle class="petEye" cx="224" cy="222" r="5"/>
+    <path d="M192 244Q204 252 218 244" stroke="#7F1D1D" stroke-width="4" stroke-linecap="round"/>
+    <rect class="energyBg" x="24" y="318" width="352" height="12" rx="6"/><rect x="24" y="318" width="254" height="12" rx="6" fill="url(#energy)"/>
+  </g>
+
+  <g transform="translate(520 1360)">
+    <rect class="card" width="400" height="360" fill="#475569"/>
+    <text x="24" y="40" class="label">孤独 · 夜窗守灯</text>
+    <text x="24" y="66" class="tiny">窗光 / 信号点 / 小灯火花</text>
+    <rect class="stage" x="24" y="88" width="352" height="210"/>
+    <rect x="62" y="120" width="112" height="116" rx="12" fill="#0F172A" opacity=".5"/><path d="M118 120V236M62 178H174" stroke="#CBD5E1" stroke-opacity=".36" stroke-width="4"/>
+    <circle cx="314" cy="138" r="10" fill="#FBBF24"/><circle cx="300" cy="198" r="6" fill="#93C5FD"/>
+    <ellipse cx="214" cy="232" rx="54" ry="46" fill="url(#petBlue)" opacity=".78"/>
+    <circle class="petEye" cx="196" cy="224" r="5"/><circle class="petEye" cx="232" cy="224" r="5"/>
+    <path d="M204 246Q214 240 224 246" stroke="#312E81" stroke-width="4" stroke-linecap="round"/>
+    <rect class="energyBg" x="24" y="318" width="352" height="12" rx="6"/><rect x="24" y="318" width="178" height="12" rx="6" fill="url(#energy)"/>
+  </g>
+
+  <g transform="translate(980 1360)">
+    <rect class="card" width="400" height="360" fill="#16A34A"/>
+    <text x="24" y="40" class="label">幸运 · 好运扭蛋机</text>
+    <text x="24" y="66" class="tiny">四叶草 / 金币 / 好运星</text>
+    <rect class="stage" x="24" y="88" width="352" height="210"/>
+    <circle cx="100" cy="150" r="24" fill="#FFE259"/><text x="91" y="158" class="small">¥</text>
+    <path d="M294 142C276 124 246 145 264 168C246 150 224 178 250 194C270 208 294 182 294 142Z" fill="#BBF7D0"/>
+    <ellipse cx="202" cy="228" rx="58" ry="50" fill="url(#petGreen)"/>
+    <circle class="petEye" cx="182" cy="218" r="6"/><circle class="petEye" cx="222" cy="218" r="6"/>
+    <path d="M184 244Q202 260 224 244" stroke="#065F46" stroke-width="5" stroke-linecap="round"/>
+    <rect class="energyBg" x="24" y="318" width="352" height="12" rx="6"/><rect x="24" y="318" width="310" height="12" rx="6" fill="url(#energy)"/>
+  </g>
+</svg>
+

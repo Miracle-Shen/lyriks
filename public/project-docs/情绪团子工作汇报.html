@@ -1,0 +1,1556 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>情绪团子互联网产品方案工作汇报</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #080a12;
+      --panel: rgba(255, 255, 255, 0.08);
+      --panel-strong: rgba(255, 255, 255, 0.13);
+      --line: rgba(255, 255, 255, 0.16);
+      --text: #f8fbff;
+      --muted: #aeb8cb;
+      --cyan: #39d5ee;
+      --mint: #63e6be;
+      --pink: #ff8fc3;
+      --amber: #ffd166;
+      --violet: #a78bfa;
+      --shadow: 0 24px 90px rgba(0, 0, 0, 0.34);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 16% 8%, rgba(57, 213, 238, 0.22), transparent 30%),
+        radial-gradient(circle at 88% 12%, rgba(255, 143, 195, 0.18), transparent 30%),
+        linear-gradient(135deg, #080a12 0%, #101728 44%, #071c22 100%);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+      line-height: 1.65;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .page {
+      width: min(1200px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 28px 0 64px;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 34px;
+      padding: 14px 0;
+      backdrop-filter: blur(18px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 34% 28%, #fff 0 10%, transparent 11%),
+        linear-gradient(135deg, #ffe4f1, #a78bfa 48%, #39d5ee);
+      box-shadow: 0 0 24px rgba(57, 213, 238, 0.45);
+    }
+
+    .nav {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav a {
+      padding: 8px 12px;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .nav a:hover {
+      border-color: var(--line);
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+      gap: 28px;
+      align-items: center;
+      min-height: 620px;
+      padding-bottom: 42px;
+      border-top: 0;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 18px;
+      padding: 6px 12px;
+      border: 1px solid rgba(99, 230, 190, 0.34);
+      border-radius: 999px;
+      color: #c9f8ea;
+      background: rgba(99, 230, 190, 0.08);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: clamp(44px, 7vw, 86px);
+      line-height: 1.02;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin-bottom: 10px;
+      font-size: clamp(30px, 4vw, 48px);
+      line-height: 1.12;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin-bottom: 10px;
+      font-size: 20px;
+      line-height: 1.3;
+    }
+
+    .hero-copy,
+    .section-lead {
+      color: #d8e3f5;
+      font-size: 18px;
+    }
+
+    .hero-copy {
+      max-width: 730px;
+      font-size: 20px;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .metric,
+    .card,
+    .phase,
+    .image-card,
+    .demo-panel,
+    .quote,
+    .tech-node {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    }
+
+    .metric {
+      min-height: 118px;
+      padding: 18px;
+    }
+
+    .metric strong {
+      display: block;
+      margin-bottom: 6px;
+      color: #fff;
+      font-size: 26px;
+      line-height: 1.05;
+    }
+
+    .metric span,
+    .card p,
+    .card li,
+    .phase p,
+    .phase li,
+    .mini span,
+    .tech-node span,
+    .image-card p,
+    td {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .mascot-stage {
+      position: relative;
+      min-height: 520px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.04)),
+        linear-gradient(180deg, rgba(11, 17, 34, 0.72), rgba(7, 21, 26, 0.92));
+      box-shadow: var(--shadow);
+    }
+
+    .stage-lines {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: linear-gradient(to bottom, black, transparent 80%);
+      opacity: 0.75;
+    }
+
+    .mascot {
+      position: absolute;
+      left: 50%;
+      top: 42%;
+      width: 270px;
+      transform: translate(-50%, -50%);
+      filter: drop-shadow(0 26px 46px rgba(57, 213, 238, 0.22));
+      animation: float 3.2s ease-in-out infinite;
+    }
+
+    .wave {
+      position: absolute;
+      left: 34px;
+      right: 34px;
+      bottom: 86px;
+      display: flex;
+      align-items: end;
+      gap: 8px;
+      height: 108px;
+    }
+
+    .bar {
+      flex: 1;
+      min-width: 8px;
+      border-radius: 999px 999px 4px 4px;
+      background: linear-gradient(180deg, var(--cyan), var(--pink));
+      opacity: 0.84;
+      animation: beat 1.08s ease-in-out infinite;
+    }
+
+    .bar:nth-child(2n) { animation-delay: 0.16s; }
+    .bar:nth-child(3n) { animation-delay: 0.28s; }
+    .bar:nth-child(4n) { animation-delay: 0.42s; }
+
+    .stage-caption {
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      bottom: 24px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .status {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 34px;
+      padding: 6px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 999px;
+      color: #fef7df;
+      background: rgba(255, 209, 102, 0.12);
+      font-size: 13px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    section {
+      padding: 46px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(240px, 0.42fr) minmax(0, 0.58fr);
+      gap: 28px;
+      align-items: start;
+      margin-bottom: 24px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      min-height: 218px;
+      padding: 22px;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.62fr) minmax(0, 0.38fr);
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      counter-reset: flow;
+      margin-top: 16px;
+    }
+
+    .flow-item {
+      position: relative;
+      min-height: 154px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    .flow-item::before {
+      counter-increment: flow;
+      content: counter(flow);
+      display: grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      margin-bottom: 14px;
+      border-radius: 50%;
+      color: #061018;
+      background: var(--mint);
+      font-weight: 900;
+    }
+
+    .flow-item strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 17px;
+    }
+
+    .flow-item span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      padding: 5px 11px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 999px;
+      color: #eaf8ff;
+      background: rgba(255, 255, 255, 0.07);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .state-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .state-item {
+      min-height: 106px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.14);
+    }
+
+    .state-item strong {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 15px;
+    }
+
+    .state-item span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    li + li {
+      margin-top: 8px;
+    }
+
+    .image-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .image-card {
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.075);
+    }
+
+    .image-frame {
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(0, 0, 0, 0.18);
+    }
+
+    .image-frame.tall {
+      aspect-ratio: 9 / 13;
+    }
+
+    .image-frame.muchator-collage {
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-auto-rows: minmax(120px, auto);
+      gap: 6px;
+      aspect-ratio: auto;
+      padding: 6px;
+      max-height: 640px;
+      overflow-y: auto;
+    }
+
+    .image-frame.muchator-collage img {
+      border-radius: 5px;
+      object-fit: cover;
+      height: auto;
+    }
+
+    .image-frame.stacked-collage {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 6px;
+      aspect-ratio: auto;
+      padding: 6px;
+    }
+
+    .image-frame.stacked-collage img {
+      height: auto;
+      border-radius: 5px;
+      object-fit: contain;
+    }
+
+    .image-body {
+      padding: 16px;
+    }
+
+    .image-body strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .competitor-main {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .competitor-main .card {
+      min-height: 260px;
+    }
+
+    .mvp {
+      display: grid;
+      grid-template-columns: minmax(0, 0.56fr) minmax(0, 0.44fr);
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .demo-panel {
+      padding: 24px;
+      background:
+        linear-gradient(135deg, rgba(57, 213, 238, 0.13), rgba(255, 255, 255, 0.06)),
+        rgba(255, 255, 255, 0.06);
+    }
+
+    .demo-screen {
+      position: relative;
+      min-height: 360px;
+      margin-top: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 8px;
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(57, 213, 238, 0.08)),
+        linear-gradient(180deg, #121829, #071d22);
+    }
+
+    .project-effects {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .project-shot {
+      position: relative;
+      min-height: 420px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background:
+        linear-gradient(180deg, rgba(22, 35, 55, 0.96), rgba(9, 22, 33, 0.98)),
+        #0e1726;
+      box-shadow: var(--shadow);
+    }
+
+    .project-shot-inner {
+      position: absolute;
+      inset: 0;
+      padding: 16px;
+    }
+
+    .project-shot h3 {
+      margin: 0 0 8px;
+      font-size: 22px;
+    }
+
+    .project-select {
+      height: 28px;
+      margin-bottom: 12px;
+      padding: 5px 10px;
+      border-radius: 6px;
+      color: #d8e3f5;
+      background: rgba(8, 12, 22, 0.58);
+      font-size: 12px;
+    }
+
+    .album-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      padding-bottom: 90px;
+    }
+
+    .album-card {
+      min-height: 126px;
+      padding: 8px;
+      border-radius: 7px;
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    .album-art {
+      aspect-ratio: 1;
+      border-radius: 5px;
+      background: var(--cover, linear-gradient(135deg, #f9a8d4, #38bdf8));
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22);
+    }
+
+    .album-card strong {
+      display: block;
+      margin-top: 7px;
+      overflow: hidden;
+      color: #fff;
+      font-size: 11px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .album-card span {
+      display: block;
+      overflow: hidden;
+      color: rgba(255, 255, 255, 0.62);
+      font-size: 10px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .project-player {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: grid;
+      grid-template-columns: 54px 1fr auto;
+      gap: 12px;
+      align-items: center;
+      min-height: 82px;
+      padding: 13px 18px;
+      border-top: 1px solid rgba(255, 255, 255, 0.13);
+      background: rgba(18, 27, 43, 0.92);
+      backdrop-filter: blur(18px);
+    }
+
+    .player-cover {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--cover, linear-gradient(135deg, #fda4af, #38bdf8));
+    }
+
+    .player-meta strong,
+    .player-meta span {
+      display: block;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .player-meta strong {
+      font-size: 13px;
+    }
+
+    .player-meta span {
+      color: rgba(255, 255, 255, 0.66);
+      font-size: 11px;
+    }
+
+    .player-controls {
+      display: grid;
+      gap: 7px;
+      min-width: 132px;
+      color: #fff;
+      font-size: 18px;
+      text-align: right;
+    }
+
+    .mini-progress {
+      height: 4px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .mini-progress span {
+      display: block;
+      width: var(--progress, 62%);
+      height: 100%;
+      background: #38bdf8;
+    }
+
+    .shot-mascot {
+      position: absolute;
+      right: 18px;
+      bottom: 86px;
+      display: grid;
+      place-items: center;
+      width: 92px;
+      height: 92px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 34% 25%, rgba(255, 255, 255, 0.9), transparent 14%),
+        linear-gradient(135deg, #b8fff2, #4ade80 48%, #38bdf8);
+      color: #12322f;
+      font-size: 42px;
+      font-weight: 900;
+      box-shadow: 0 15px 38px rgba(34, 211, 238, 0.25);
+    }
+
+    .shot-mascot.cloud {
+      background:
+        radial-gradient(circle at 32% 26%, #fff 0 18%, transparent 19%),
+        linear-gradient(135deg, #f7fbff, #c7d2fe 48%, #93c5fd);
+      color: #40426a;
+    }
+
+    .shot-bubble {
+      position: absolute;
+      right: 18px;
+      bottom: 76px;
+      max-width: 134px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      background: rgba(8, 12, 22, 0.72);
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 10px;
+      transform: translateY(72px);
+    }
+
+    .demo-track {
+      position: absolute;
+      left: 22px;
+      right: 22px;
+      bottom: 22px;
+      display: grid;
+      grid-template-columns: 68px 1fr;
+      gap: 12px;
+      align-items: center;
+      padding: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 8px;
+      background: rgba(8, 10, 18, 0.72);
+    }
+
+    .album {
+      width: 68px;
+      height: 68px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #ffd166, #ff8fc3 48%, #39d5ee);
+    }
+
+    .progress {
+      height: 8px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .progress span {
+      display: block;
+      width: 62%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--mint), var(--cyan));
+    }
+
+    .floating-demo {
+      position: absolute;
+      left: 50%;
+      top: 38%;
+      width: 190px;
+      transform: translate(-50%, -50%);
+      animation: float 3.2s ease-in-out infinite;
+    }
+
+    .mini-grid,
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .mini {
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.16);
+    }
+
+    .mini strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .tech-node {
+      padding: 18px;
+      min-height: 134px;
+    }
+
+    .tech-node strong {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+    }
+
+    table {
+      width: 100%;
+      min-width: 820px;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.07);
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .quote {
+      padding: 24px;
+      border-left: 4px solid var(--cyan);
+      background: rgba(57, 213, 238, 0.08);
+      color: #dff9ff;
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding-top: 26px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(-50%, -50%) rotate(-2deg) scale(1); }
+      50% { transform: translate(-50%, -56%) rotate(2deg) scale(1.04); }
+    }
+
+    @keyframes beat {
+      0%, 100% { height: 28%; }
+      45% { height: 92%; }
+      70% { height: 54%; }
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .section-head,
+      .product-grid,
+      .mvp {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        min-height: auto;
+      }
+
+      .metric-grid,
+      .cards,
+      .competitor-main,
+      .image-grid,
+      .flow,
+      .state-grid,
+      .project-effects {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        width: min(100% - 24px, 1200px);
+        padding-top: 16px;
+      }
+
+      .topbar,
+      .footer {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .nav {
+        justify-content: flex-start;
+      }
+
+      .metric-grid,
+      .cards,
+      .competitor-main,
+      .image-grid,
+      .flow,
+      .state-grid,
+      .project-effects,
+      .mini-grid,
+      .tech-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .mascot-stage {
+        min-height: 430px;
+      }
+
+      .mascot {
+        width: 220px;
+      }
+
+      h1 {
+        font-size: 46px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="返回顶部">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>情绪团子工作汇报</span>
+      </a>
+      <nav class="nav" aria-label="报告导航">
+        <a href="#product">产品描述</a>
+        <a href="#competition">竞品分析</a>
+        <a href="#game">游戏拓展</a>
+        <a href="#mvp">MVP</a>
+        <a href="#business">商业闭环</a>
+      </nav>
+    </header>
+
+    <section class="hero" id="top" aria-label="报告摘要">
+      <div>
+        <p class="eyebrow">互联网产品方案报告 · 四段式汇报版</p>
+        <h1>情绪团子</h1>
+        <p class="hero-copy">情绪团子是音乐 App 内的情绪陪伴型宠物。它把用户当下的一级情绪、二级动作状态、听歌场景、推荐内容和轻量互动连接起来，让用户在听歌时获得更明确的陪伴感。</p>
+        <div class="metric-grid" aria-label="关键摘要">
+          <div class="metric">
+            <strong>产品描述</strong>
+            <span>基于《产品方案.docx》，结合 MuChator 中 active music discovery 和 conversational recommendation 的表述。</span>
+          </div>
+          <div class="metric">
+            <strong>3 个主竞品</strong>
+            <span>汽水音乐、QQ 音乐、网易云音乐作为重点，其余产品仅作补充参考。</span>
+          </div>
+          <div class="metric">
+            <strong>MVP</strong>
+            <span>验证 demo 效果：浮动团子、节奏动效、一级情绪、二级动作状态、情绪推荐入口。</span>
+          </div>
+          <div class="metric">
+            <strong>商业闭环</strong>
+            <span>提升推荐消费和播放停留，再承接状态皮肤套装、动作资产和联名收入。</span>
+          </div>
+        </div>
+      </div>
+
+      <aside class="mascot-stage" aria-label="情绪团子视觉示意">
+        <div class="stage-lines"></div>
+        <svg class="mascot" viewBox="0 0 260 260" role="img" aria-label="随音乐跳动的情绪团子">
+          <defs>
+            <linearGradient id="body" x1="22%" y1="0%" x2="82%" y2="100%">
+              <stop offset="0%" stop-color="#fff7ed"/>
+              <stop offset="38%" stop-color="#ff8fc3"/>
+              <stop offset="70%" stop-color="#a78bfa"/>
+              <stop offset="100%" stop-color="#39d5ee"/>
+            </linearGradient>
+            <linearGradient id="shine" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9"/>
+              <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <ellipse cx="130" cy="222" rx="58" ry="16" fill="rgba(0,0,0,0.28)"/>
+          <path d="M82 88 C66 48 100 34 119 65 C142 32 179 48 165 90" fill="url(#body)" opacity="0.9"/>
+          <circle cx="130" cy="128" r="82" fill="url(#body)"/>
+          <ellipse cx="106" cy="82" rx="42" ry="24" fill="url(#shine)" opacity="0.55"/>
+          <circle cx="96" cy="119" r="10" fill="#12172a"/>
+          <circle cx="164" cy="119" r="10" fill="#12172a"/>
+          <circle cx="88" cy="144" r="14" fill="#ff5c9f" opacity="0.42"/>
+          <circle cx="172" cy="144" r="14" fill="#ff5c9f" opacity="0.42"/>
+          <path d="M105 157 C119 174 143 174 157 157" fill="none" stroke="#18123f" stroke-width="9" stroke-linecap="round"/>
+          <path d="M190 63 v42 c0 9 -7 16 -16 16 c-8 0 -14 -5 -14 -12 c0 -8 7 -13 16 -13 c3 0 6 1 9 2 v-45 l34 -9 v38 c0 9 -7 16 -16 16 c-8 0 -14 -5 -14 -12 c0 -8 7 -13 16 -13 c3 0 6 1 9 2 v-21 l-24 6z" fill="#ffd166"/>
+        </svg>
+        <div class="wave" aria-hidden="true">
+          <span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span>
+        </div>
+        <div class="stage-caption">
+          <div>
+            <strong>当前 demo 基础</strong>
+            <div class="status">已有 FloatingBeatMascot：可拖拽、可点击切换形象、可读取音频频谱或播放进度驱动动作。</div>
+          </div>
+          <span class="chip">正在旅行</span>
+        </div>
+      </aside>
+    </section>
+
+    <section id="product">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Tab 1 · 产品描述</p>
+          <h2>一个情绪陪伴型音乐宠物，承接用户“当下想听什么”的模糊需求。</h2>
+        </div>
+        <p class="section-lead">产品主语言来自《产品方案.docx》：用户先认领基础团子，再设置一级情绪和可选的二级动作状态。一级情绪表达“我现在是什么感觉”，二级动作状态表达“我现在正在做什么，想以什么样子待在这个情绪里”。结合 MuChator 论文语境，情绪团子承接的是情境化、口语化、主动表达的音乐发现需求。</p>
+      </div>
+
+      <div class="product-grid">
+        <div class="card">
+          <h3>一句话定义</h3>
+          <p>情绪团子是音乐 App 内的情绪陪伴型宠物。用户选择或创建自己的团子形象，并为团子设置“一级情绪 + 二级动作状态”。团子出现在播放页或音乐空间中，随音乐节奏、歌词氛围和情绪转折做出反应，并影响推荐歌单的内容方向。</p>
+          <p>例如用户选择“放松 + 正在旅行”，团子可以呈现旅行家皮肤，背着包、拿着地图，在海边或城市背景中移动；推荐歌单也会更偏旅行、民谣、Chill 或轻松氛围。</p>
+        </div>
+        <div class="card">
+          <h3>核心定位</h3>
+          <ul>
+            <li>不是单纯养宠，而是用户听歌过程中的情绪代理。</li>
+            <li>不是固定动画，而是根据音乐节奏、歌词氛围、情绪状态和用户反馈变化的音乐 Agent 雏形。</li>
+            <li>不是普通推荐歌单包装，而是把推荐理由、播放反馈和个人音乐身份前台化。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="flow" aria-label="产品闭环">
+        <div class="flow-item">
+          <strong>认领情绪团子</strong>
+          <span>用户选择基础团子形象，作为自己在音乐 App 中的陪伴宠物。</span>
+        </div>
+        <div class="flow-item">
+          <strong>设置两层状态</strong>
+          <span>先选择一级情绪，再选择可选的二级动作状态，例如放松 + 正在旅行。</span>
+        </div>
+        <div class="flow-item">
+          <strong>情绪适配推荐</strong>
+          <span>一级情绪决定推荐基调，二级动作状态细化场景歌单和推荐标签。</span>
+        </div>
+        <div class="flow-item">
+          <strong>陪伴听歌</strong>
+          <span>团子根据节奏、音量、歌词氛围和情绪转折跳跃、漂浮、慢晃或发光。</span>
+        </div>
+        <div class="flow-item">
+          <strong>形象成长</strong>
+          <span>用户通过任务、活动或成就解锁更多动作状态和皮肤套装。</span>
+        </div>
+      </div>
+
+      <div class="cards" style="margin-top: 14px;">
+        <article class="card">
+          <h3>主体音乐形象</h3>
+          <p>团子是用户在音乐 App 虚拟空间中的基础形象，可以从圆滚滚团子扩展到动物型、精灵型、漂浮型等形态。</p>
+        </article>
+        <article class="card">
+          <h3>一级情绪表现</h3>
+          <p>一级情绪决定团子的颜色、光效、表情和整体氛围，也决定推荐的大方向。</p>
+        </article>
+        <article class="card">
+          <h3>二级动作状态</h3>
+          <p>动作状态决定皮肤套装、道具、动作和场景背景，也会影响更细的推荐标签。</p>
+        </article>
+      </div>
+
+      <div class="card" style="margin-top: 14px;">
+        <h3>情绪与状态体系</h3>
+        <p>新版产品方案将团子状态拆成两层：一级情绪回答“我现在是什么感觉”，二级动作状态回答“我现在正在做什么，想以什么样子待在这个情绪里”。情绪保持克制，场景、曲风、语言和活动沉淀为动作状态或推荐标签。</p>
+        <div class="pill-list" aria-label="12 种基础情绪">
+          <span class="pill">平静</span>
+          <span class="pill">快乐</span>
+          <span class="pill">治愈</span>
+          <span class="pill">放松</span>
+          <span class="pill">低落</span>
+          <span class="pill">EMO</span>
+          <span class="pill">浪漫</span>
+          <span class="pill">怀旧</span>
+          <span class="pill">元气</span>
+          <span class="pill">专注</span>
+          <span class="pill">孤独</span>
+          <span class="pill">幸运</span>
+        </div>
+        <div class="state-grid">
+          <div class="state-item">
+            <strong>正在旅行/旅行家</strong>
+            <span>背包、地图、相机；移动、张望、拍照，适配放松、快乐、治愈。</span>
+          </div>
+          <div class="state-item">
+            <strong>正在通勤/驾驶</strong>
+            <span>车窗、耳机、路线；轻晃、看窗外，适配元气、专注、平静。</span>
+          </div>
+          <div class="state-item">
+            <strong>深夜 EMO</strong>
+            <span>暗色、雨滴、雾气；缩成一团、慢速晃动，适配 EMO、低落、孤独。</span>
+          </div>
+          <div class="state-item">
+            <strong>海边放松</strong>
+            <span>海浪、躺椅、贝壳；轻晃、晒太阳，适配放松、治愈。</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="competition">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Tab 2 · 竞品分析</p>
+          <h2>主竞品聚焦汽水音乐、QQ 音乐、网易云音乐。</h2>
+        </div>
+        <p class="section-lead">根据《三种app中陪伴小宠形象调研.docx》的文字描述，三组样本分别代表三种方向：汽水音乐把小宠物接到 AI 音乐发现入口，QQ 音乐把 AI 陪伴做成可选人物、动作和背景玩法，网易云音乐把播放页宠物与自定义生成结合。</p>
+      </div>
+
+      <div class="competitor-main">
+        <article class="card">
+          <h3>汽水音乐：模式选择、小宠物与 AI 音乐发现</h3>
+          <ul>
+            <li>调研文档中记录了“多场景模式选择”“浮动小宠物”“点击小宠物跳转 Assistance：AI 音乐发现”。</li>
+            <li>MuChator 论文对应沉浸式信息流发现和交互式音乐推荐，说明自然语言场景找歌已经被产品化验证。</li>
+            <li>局限是小宠物互动性弱，更像 AI 搜歌助手快捷入口；情绪团子需要让角色本身承担情绪选择和推荐反馈。</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>QQ 音乐：AI 陪伴、人物选择与背景玩法</h3>
+          <ul>
+            <li>调研文档中记录了 AI 陪伴人物选择、人物动作、音乐播放页固定位和背景玩法。</li>
+            <li>它证明音乐产品里可以承接人物、动作和背景这类视觉资产，适合和会员、装扮体系连接。</li>
+            <li>局限是音乐页形象位置固定，不可玩、不可交互、不可移动；情绪团子应强调可拖拽、可切换、随音乐变化。</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>网易云音乐：自定义生成与音乐人格表达</h3>
+          <ul>
+            <li>调研文档中记录了播放页宠物和自定义生成宠物形象。</li>
+            <li>网易云的优势在于音乐情绪、评论社区、音乐人格和状态表达心智，适合做“我的音乐状态”。</li>
+            <li>局限是宠物主要在固定动作中切换；情绪团子应把生成形象、听歌行为和推荐状态连续绑定。</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="image-grid" aria-label="竞品截图">
+        <figure class="image-card">
+          <div class="image-frame tall">
+            <img src="report_assets/companion_research/image1.jpeg" alt="汽水音乐模式选择截图">
+          </div>
+          <figcaption class="image-body">
+            <strong>汽水音乐 · 模式选择</strong>
+            <p>多场景模式选择说明用户愿意用场景表达听歌需求；情绪团子可进一步把入口收敛为“先选情绪，再选状态”。</p>
+          </figcaption>
+        </figure>
+        <figure class="image-card">
+          <div class="image-frame muchator-collage">
+            <img src="report_assets/companion_research/image3.png" alt="汽水音乐沉浸式推荐与交互式音乐推荐示意">
+            <img src="report_assets/companion_research/image5.png" alt="汽水音乐小宠物推荐文案截图：你看着大伙儿合照">
+            <img src="report_assets/companion_research/image6.png" alt="汽水音乐小宠物推荐文案截图：是我们装傻">
+            <img src="report_assets/companion_research/image4.png" alt="汽水音乐小宠物推荐文案截图：101 Girls">
+          </div>
+          <figcaption class="image-body">
+            <strong>汽水音乐 / MuChator</strong>
+            <p>从被动推荐流到交互式音乐推荐，再到小宠物承载 AI 文案与 Assistance 入口，证明主动找歌可以被前台角色承接。</p>
+          </figcaption>
+        </figure>
+        <figure class="image-card">
+          <div class="image-frame tall">
+            <img src="report_assets/companion_research/image7.jpeg" alt="汽水音乐 AI 音乐发现入口截图">
+          </div>
+          <figcaption class="image-body">
+            <strong>汽水音乐 · AI 音乐发现</strong>
+            <p>小宠物跳转 AI 音乐发现，但角色本身互动较弱；情绪团子要把入口、反馈和陪伴动作合在同一角色中。</p>
+          </figcaption>
+        </figure>
+        <figure class="image-card">
+          <div class="image-frame tall">
+            <img src="report_assets/companion_research/image8.jpeg" alt="QQ 音乐人物选择截图">
+          </div>
+          <figcaption class="image-body">
+            <strong>QQ 音乐 · 人物选择</strong>
+            <p>AI 陪伴人物选择证明形象资产已经进入音乐产品，情绪团子可进一步让形象绑定情绪和推荐方向。</p>
+          </figcaption>
+        </figure>
+        <figure class="image-card">
+          <div class="image-frame tall">
+            <img src="report_assets/companion_research/image10.jpeg" alt="QQ 音乐播放页音乐固定位截图">
+          </div>
+          <figcaption class="image-body">
+            <strong>QQ 音乐 · 音乐固定位</strong>
+            <p>播放页形象验证“陪伴在场”，但固定位、不可玩、不可移动；情绪团子需要成为可操作的浮动对象。</p>
+          </figcaption>
+        </figure>
+        <figure class="image-card">
+          <div class="image-frame stacked-collage">
+            <img src="report_assets/companion_research/image11.jpeg" alt="QQ 音乐背景玩法 funny 歌词背景截图">
+            <img src="report_assets/companion_research/image12.jpeg" alt="QQ 音乐背景玩法截图">
+          </div>
+          <figcaption class="image-body">
+            <strong>QQ 音乐 · 背景玩法</strong>
+            <p>背景玩法说明视觉资产可与播放氛围绑定，歌词背景和主题视觉可转化为团子的状态皮肤和场景套装。</p>
+          </figcaption>
+        </figure>
+        <figure class="image-card">
+          <div class="image-frame tall">
+            <img src="report_assets/companion_research/image13.jpeg" alt="网易云播放页陪伴形象截图">
+          </div>
+          <figcaption class="image-body">
+            <strong>网易云音乐 · 播放页陪伴</strong>
+            <p>播放页宠物强化“音乐状态可被看见”，但动作较固定；情绪团子要跟随节奏、情绪和用户反馈变化。</p>
+          </figcaption>
+        </figure>
+        <figure class="image-card">
+          <div class="image-frame tall">
+            <img src="report_assets/companion_research/image14.jpeg" alt="网易云自定义生成截图">
+          </div>
+          <figcaption class="image-body">
+            <strong>网易云音乐 · 自定义生成</strong>
+            <p>自定义生成强调个性化身份，情绪团子可以把生成结果接入听歌行为、状态皮肤和情绪推荐。</p>
+          </figcaption>
+        </figure>
+      </div>
+
+      <div class="table-wrap" style="margin-top: 16px;">
+        <table>
+          <thead>
+            <tr>
+              <th>产品</th>
+              <th>重点能力</th>
+              <th>情绪团子的机会</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>汽水音乐</td>
+              <td>多场景模式选择、浮动小宠物、Assistance 入口、沉浸式推荐流、交互式音乐推荐。</td>
+              <td>保留主动找歌能力，同时让团子不仅是入口，还能表达情绪、解释推荐和承接反馈。</td>
+            </tr>
+            <tr>
+              <td>QQ 音乐</td>
+              <td>AI 陪伴人物选择、人物动作、音乐固定位、背景玩法、会员和装扮资产。</td>
+              <td>吸收人物、动作、背景资产能力，同时解决固定、不可玩、不可移动的问题。</td>
+            </tr>
+            <tr>
+              <td>网易云音乐</td>
+              <td>播放页宠物、自定义生成宠物形象、音乐情绪社区、音乐人格和状态表达。</td>
+              <td>把“生成一个宠物”升级为“宠物随听歌状态持续变化”。</td>
+            </tr>
+            <tr>
+              <td>其他参考</td>
+              <td>全民 K 歌可作为娱乐化角色动作参考；Spotify/Deezer 强调 mood 推荐和推荐解释。</td>
+              <td>简单借鉴，不作为本方案主竞品。重点仍回到中文音乐产品的播放、推荐、会员和社交场景。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="game">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Tab 3 · 游戏拓展</p>
+          <h2>用“听歌掉落”把陪伴感变成可持续的轻互动。</h2>
+        </div>
+        <p class="section-lead">小游戏采用“轻放置 + 微节奏收集 + 情绪陪伴”的形式：用户不用一直盯着屏幕玩，听歌本身会自动掉落资源；用户想互动时，可以点一点、接一接、抱一抱小宠物，帮它把情绪能量攒起来。这样不会打断音乐 App 的主体验，而是让播放过程多一层陪伴反馈。</p>
+        <p class="section-lead">产品游戏拓展可以定义为“情绪能量补给站”。用户选择情绪后，小宠物进入对应状态；播放歌曲时，系统根据播放时长、节奏和当前情绪持续积累情绪能量。以 EMO 状态为例，小宠物缩在雨夜角落里，歌曲播放时掉落“歌词碎片”“雨滴音符”“共鸣光点”，用户可以帮它收集这些光点，为它加油。能量满后，小宠物不会立刻“变开心”，而是从“低电量 EMO”变成“被陪伴的 EMO”。重点不是消灭负面情绪，而是承认情绪，陪它待一会儿。</p>
+      </div>
+
+      <div class="cards">
+        <article class="card">
+          <h3>为什么要加入游戏化</h3>
+          <ul>
+            <li>情绪设置解决“我现在是什么感觉”，小游戏进一步解决“我怎么陪这个情绪待一会儿”。</li>
+            <li>播放页原本是工具型空间，宠物和能量条能把听歌过程变成有反馈的陪伴场景。</li>
+            <li>掉落、收集、解锁动作和装饰，可以自然承接留存、会员权益、皮肤套装和活动运营。</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>首个玩法：雨夜补给站</h3>
+          <ul>
+            <li>用户选择 EMO 或深夜 EMO 后，播放歌曲时进入雨夜场景。</li>
+            <li>场景上方掉落雨滴音符、歌词碎片、共鸣光点，点击或接住后增加共鸣能量。</li>
+            <li>能量满后，小宠物从“低电量 EMO”变成“被陪伴的 EMO”，雨变小，小夜灯亮起。</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>玩法边界</h3>
+          <ul>
+            <li>不设置失败、不扣分、不 Game Over，避免给低落情绪用户增加压力。</li>
+            <li>听歌自动积累能量，用户不操作也能推进；互动只作为加速和情绪表达。</li>
+            <li>奖励优先做小动作、房间物件、皮肤套装和今日情绪卡，不抢推荐和播放主线。</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="table-wrap" style="margin-top: 16px;">
+        <table>
+          <thead>
+            <tr>
+              <th>情绪</th>
+              <th>小游戏主题</th>
+              <th>场景关键词</th>
+              <th>掉落物</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>EMO</td>
+              <td>雨夜补给站</td>
+              <td>雨夜、月亮、小夜灯、慢速呼吸</td>
+              <td>雨滴音符、歌词碎片、共鸣光点</td>
+            </tr>
+            <tr>
+              <td>放松</td>
+              <td>海边漂流</td>
+              <td>海浪、泡泡、躺平漂流</td>
+              <td>泡泡、贝壳、月光</td>
+            </tr>
+            <tr>
+              <td>元气</td>
+              <td>节拍充电站</td>
+              <td>充电台、星星、跳跃节拍</td>
+              <td>星星、能量球、火花</td>
+            </tr>
+            <tr>
+              <td>专注</td>
+              <td>书桌整理</td>
+              <td>书桌、时钟、灵感点</td>
+              <td>书页、时钟碎片、灵感点</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="demo-panel" style="margin-top: 16px; padding: 16px;">
+        <h3>12 种情绪小游戏场景原型</h3>
+        <p>后续所有情绪可以复用同一套底层机制：播放触发、掉落物、能量条和宠物反馈。差异主要体现在场景主题、掉落物和奖励表达。</p>
+        <img src="report_assets/game_scene_prototypes/emotion-game-scenes-overview.svg" alt="12 种情绪小游戏场景原型总览" style="height: auto; border-radius: 8px; border: 1px solid rgba(255,255,255,0.14); margin-top: 12px;">
+      </div>
+    </section>
+
+    <section id="mvp">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Tab 4 · MVP</p>
+          <h2>用 demo 跑通“选情绪、看团子、听推荐”的最小闭环。</h2>
+        </div>
+        <p class="section-lead">MVP 以现有 FloatingBeatMascot 为基础，完成播放页浮动团子、节奏动效、一级情绪选择、二级动作状态、情绪推荐位和推荐解释，让用户直接感知“情绪定基调，动作状态定场景”。</p>
+      </div>
+
+      <div class="project-effects" aria-label="当前项目效果示意图">
+        <figure class="project-shot">
+          <div class="project-shot-inner">
+            <h3>Discover Top</h3>
+            <div class="project-select">推荐榜单</div>
+            <div class="album-grid">
+              <div class="album-card"><div class="album-art" style="--cover: linear-gradient(135deg, #f9a8d4, #60a5fa);"></div><strong>Golden</strong><span>HUNTR/X, EJA...</span></div>
+              <div class="album-card"><div class="album-art" style="--cover: linear-gradient(135deg, #a3e635, #84cc16);"></div><strong>Everything is...</strong><span>Charli xcx & Caroline...</span></div>
+              <div class="album-card"><div class="album-art" style="--cover: linear-gradient(135deg, #fee2e2, #f8fafc);"></div><strong>Sugar On My T...</strong><span>Tyler, The Creator</span></div>
+              <div class="album-card"><div class="album-art" style="--cover: radial-gradient(circle, #7f1d1d, #1e293b);"></div><strong>Ordinary</strong><span>Alex Warren</span></div>
+              <div class="album-card"><div class="album-art" style="--cover: linear-gradient(135deg, #86efac, #fb7185);"></div><strong>The Fate Of Op...</strong><span>Taylor Swift</span></div>
+              <div class="album-card"><div class="album-art" style="--cover: linear-gradient(135deg, #e5e7eb, #111827);"></div><strong>Камин</strong><span>EMIN & JONY</span></div>
+              <div class="album-card"><div class="album-art" style="--cover: linear-gradient(135deg, #67e8f9, #fb7185);"></div><strong>Starburster</strong><span>Fontaines D.C.</span></div>
+              <div class="album-card"><div class="album-art" style="--cover: linear-gradient(135deg, #0f172a, #22c55e);"></div><strong>Man</strong><span>Oklou</span></div>
+            </div>
+            <div class="shot-mascot">⌣</div>
+            <div class="shot-bubble">Ordinary<br>开心团子 · 跟随节奏轻轻跳动</div>
+            <div class="project-player">
+              <div class="player-cover" style="--cover: radial-gradient(circle, #fda4af, #7f1d1d);"></div>
+              <div class="player-meta"><strong>Ordinary</strong><span>Alex Warren</span></div>
+              <div class="player-controls">◁Ⅱ▷<div class="mini-progress" style="--progress: 58%;"><span></span></div></div>
+            </div>
+          </div>
+        </figure>
+
+        <figure class="project-shot">
+          <div class="project-shot-inner">
+            <h3>Discover Top</h3>
+            <div class="project-select">推荐榜单</div>
+            <div class="album-grid">
+              <div class="album-card"><div class="album-art" style="--cover: linear-gradient(135deg, #f9a8d4, #60a5fa);"></div><strong>Golden</strong><span>HUNTR/X, EJA...</span></div>
+              <div class="album-card"><div class="album-art" style="--cover: linear-gradient(135deg, #a3e635, #84cc16);"></div><strong>Everything is...</strong><span>Charli xcx & Caroline...</span></div>
+              <div class="album-card"><div class="album-art" style="--cover: linear-gradient(135deg, #fee2e2, #f8fafc);"></div><strong>Sugar On My T...</strong><span>Tyler, The Creator</span></div>
+              <div class="album-card"><div class="album-art" style="--cover: radial-gradient(circle, #fef3c7, #172554);"></div><strong>Ordinary</strong><span>Alex Warren</span></div>
+              <div class="album-card"><div class="album-art" style="--cover: linear-gradient(135deg, #86efac, #fb7185);"></div><strong>The Fate Of Op...</strong><span>Taylor Swift</span></div>
+              <div class="album-card"><div class="album-art" style="--cover: linear-gradient(135deg, #e5e7eb, #111827);"></div><strong>Камин</strong><span>EMIN & JONY</span></div>
+              <div class="album-card"><div class="album-art" style="--cover: linear-gradient(135deg, #67e8f9, #fb7185);"></div><strong>Starburster</strong><span>Fontaines D.C.</span></div>
+              <div class="album-card"><div class="album-art" style="--cover: linear-gradient(135deg, #f1f5f9, #64748b);"></div><strong>Man I / On The...</strong><span>Olivia D & King P</span></div>
+            </div>
+            <div class="shot-mascot cloud">⌣</div>
+            <div class="shot-bubble">On The Floor<br>放松状态 · 云朵团子轻晃</div>
+            <div class="project-player">
+              <div class="player-cover" style="--cover: linear-gradient(135deg, #e2e8f0, #334155);"></div>
+              <div class="player-meta"><strong>On The Floor</strong><span>Sir Trill & King P</span></div>
+              <div class="player-controls">◁Ⅱ▷<div class="mini-progress" style="--progress: 12%;"><span></span></div></div>
+            </div>
+          </div>
+        </figure>
+      </div>
+
+      <div class="mvp">
+        <article class="demo-panel">
+          <h3>Demo 效果</h3>
+          <p>页面中出现一个浮动情绪团子。播放歌曲后，团子跟随节奏上下弹动、倾斜、发光；用户点击团子可切换基础形象和一级情绪；点击“正在旅行”可叠加二级动作状态皮肤。</p>
+          <div class="demo-screen" aria-label="demo 效果示意">
+            <div class="stage-lines"></div>
+            <svg class="floating-demo" viewBox="0 0 260 260" role="img" aria-label="demo 团子">
+              <defs>
+                <linearGradient id="demo-body" x1="22%" y1="0%" x2="82%" y2="100%">
+                  <stop offset="0%" stop-color="#fff7ed"/>
+                  <stop offset="42%" stop-color="#ff8fc3"/>
+                  <stop offset="100%" stop-color="#39d5ee"/>
+                </linearGradient>
+              </defs>
+              <ellipse cx="130" cy="222" rx="58" ry="16" fill="rgba(0,0,0,0.28)"/>
+              <circle cx="130" cy="128" r="82" fill="url(#demo-body)"/>
+              <ellipse cx="104" cy="82" rx="42" ry="24" fill="#fff" opacity="0.4"/>
+              <circle cx="96" cy="119" r="10" fill="#12172a"/>
+              <circle cx="164" cy="119" r="10" fill="#12172a"/>
+              <path d="M105 157 C119 174 143 174 157 157" fill="none" stroke="#18123f" stroke-width="9" stroke-linecap="round"/>
+            </svg>
+            <div class="demo-track">
+              <div class="album"></div>
+              <div>
+                <strong>放松团子正在匹配下一首</strong>
+                <p class="status">降低节奏强度，减少强鼓点，保留温柔人声。</p>
+                <div class="progress"><span></span></div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <aside>
+          <div class="card">
+            <h3>MVP 上线内容</h3>
+            <ul>
+              <li>一级情绪：开放 12 种一级情绪入口，并在 demo 中优先展示平静、快乐、放松、EMO、元气等高频情绪。</li>
+              <li>二级动作状态：开放正在旅行/旅行家、正在通勤/驾驶、正在健身、正在助眠、深夜 EMO、海边放松。</li>
+              <li>播放页陪伴：团子以浮动层出现在播放页，支持拖拽、点击切换和动作状态皮肤切换。</li>
+              <li>节奏反馈：根据真实音频频谱或播放进度驱动弹跳、倾斜、缩放和发光。</li>
+              <li>推荐联动：展示“团子为你推荐”的情绪歌单，并用一句话说明推荐原因。</li>
+            </ul>
+          </div>
+          <div class="mini-grid">
+            <div class="mini">
+              <strong>体验目标</strong>
+              <span>用户完成“选择一级情绪 - 切换二级动作状态 - 播放歌曲 - 看到团子反馈 - 点击推荐”的完整路径。</span>
+            </div>
+            <div class="mini">
+              <strong>验证指标</strong>
+              <span>推荐点击率、播放页停留、情绪切换率、分享率。</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <div class="tech-grid" aria-label="技术实现">
+        <div class="tech-node">
+          <strong>前端框架</strong>
+          <span>当前项目基于 React 18、Vite、Tailwind CSS、Redux Toolkit、React Router。MVP 可直接在现有 lyriks 原型中迭代。</span>
+        </div>
+        <div class="tech-node">
+          <strong>播放状态接入</strong>
+          <span>通过 Redux playerSlice 读取 activeSong 和 isPlaying，通过 AudioPlayerContext 获取 audioElement。</span>
+        </div>
+        <div class="tech-node">
+          <strong>音频频谱驱动</strong>
+          <span>FloatingBeatMascot 使用 AudioContext、createMediaElementSource、AnalyserNode，读取低频、中频、全频和时域能量。</span>
+        </div>
+        <div class="tech-node">
+          <strong>动效策略</strong>
+          <span>根据 beatLevel 计算 bounce、glow、tilt，并按不同团子的 motion profile 调整弹跳高度、缩放、倾斜和响应速度。</span>
+        </div>
+        <div class="tech-node">
+          <strong>交互能力</strong>
+          <span>Pointer Events 支持拖拽，点击切换团子形象，按钮切换“正在旅行”动作状态皮肤。位置会在窗口缩放时自动 clamp 到视口内。</span>
+        </div>
+        <div class="tech-node">
+          <strong>降级方案</strong>
+          <span>当真实频谱不可用或持续静音时，使用 currentTime 的 fallback beat，保证 demo 在跨域音频或浏览器限制下仍有可见节奏。</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="business">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Tab 5 · 商业闭环</p>
+          <h2>从推荐增强到会员权益，再到虚拟装扮和品牌联名。</h2>
+        </div>
+        <p class="section-lead">收益逻辑来自《收益闭环.docx》：情绪团子不是趣味贴片，而是把听歌、推荐、会员、社交和轻量游戏奖励包装成一个更有情绪感和可消费空间的虚拟形象系统。</p>
+      </div>
+
+      <div class="cards">
+        <article class="card">
+          <h3>第一层：提升听歌与推荐消费</h3>
+          <ul>
+            <li>团子让播放页从静态工具变成有反馈、有陪伴、有互动的空间。</li>
+            <li>“兴奋团子为你推荐”“放松团子正在匹配”比普通推荐更容易被理解和点击。</li>
+            <li>核心指标：播放页停留、推荐点击率、播放转化、完播率。</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>第二层：增加会员付费感知</h3>
+          <ul>
+            <li>基础团子免费，会员解锁更多团子形象、动态表现、二级动作状态、专属音效和歌词背景。</li>
+            <li>会员权益从“无广告、高音质、下载”扩展到年轻用户更容易感知的形象表达。</li>
+            <li>核心指标：会员入口点击、皮肤试用、会员转化率。</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>第三层：虚拟道具与联名收入</h3>
+          <ul>
+            <li>状态皮肤套装、动作表现、背景场景、表情包、音效包可以成为可购买或可解锁资产。</li>
+            <li>歌手新专辑、演唱会、影视 OST 和品牌活动可以推出限定团子形象或状态套装。</li>
+            <li>核心指标：道具购买、活动参与、分享曝光、联名转化。</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="table-wrap" style="margin-top: 16px;">
+        <table>
+          <thead>
+            <tr>
+              <th>阶段</th>
+              <th>产品动作</th>
+              <th>业务目标</th>
+              <th>观察指标</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>MVP</td>
+              <td>基础团子、播放页动效、一级情绪、二级动作状态、情绪推荐位、推荐解释。</td>
+              <td>证明陪伴感和两层状态入口能提升听歌消费。</td>
+              <td>推荐点击率、播放页停留、情绪切换率、分享率。</td>
+            </tr>
+            <tr>
+              <td>V1</td>
+              <td>轻量成长、听歌反馈记忆、更多二级动作状态和状态皮肤套装。</td>
+              <td>提高留存和用户对团子的拥有感。</td>
+              <td>7 日留存、30 日留存、连续使用率、收藏与完播提升。</td>
+            </tr>
+            <tr>
+              <td>V2</td>
+              <td>会员状态套装、场景套装、歌手联名、主题活动。</td>
+              <td>形成会员权益和虚拟资产收入。</td>
+              <td>会员转化、道具购买、活动转化、联名曝光。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="quote" style="margin-top: 16px;">最终建议：情绪团子的 MVP 要先把“音乐推荐的前台角色”跑通，再逐步升级为“用户音乐身份资产”。主线始终围绕听歌、推荐、会员和分享，不让宠物玩法脱离音乐 App 主流程。</div>
+    </section>
+
+    <footer class="footer">
+      <span>资料来源：项目本地《产品方案.docx》《收益闭环.docx》《情绪团子竞品调研报告.md》《三种app中陪伴小宠形象调研.docx》与 lyriks 前端原型。</span>
+      <span>生成日期：2026-06-15</span>
+    </footer>
+  </main>
+</body>
+</html>
