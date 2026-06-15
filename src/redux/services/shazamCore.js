@@ -11,6 +11,12 @@ d3dbeb9abemsh102b151bb4c8e8ap153197jsn631752ee02e6
 
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
+const getSongsFromSearchResponse = (response) => (
+  Array.isArray(response?.data) ? response.data : []
+);
+
+const buildSongsSearchQuery = (query) => `/search/multi?search_type=SONGS&query=${encodeURIComponent(query)}`;
+
 export const shazamCoreApi = createApi({
   reducerPath: 'shazamCoreApi',
   baseQuery: fetchBaseQuery({
@@ -22,15 +28,32 @@ export const shazamCoreApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    getTopCharts: builder.query({ query: (countryCode) => `/charts/world?country_code=${countryCode}` }),
-    getSongsByGenre: builder.query({ query: ({ genre, countryCode })  =>  `/charts/genre-world?genre_code=${genre}&country_code=${countryCode}`,
-    getSongDetails: builder.query({ query:({ songid }) => `/tracks/details?track_id=${songid}` }),
-    getSongRelated: builder.query({ query:({ songid }) => `/tracks/related?track_id=${songid}` }),
-    getArtistDetails: builder.query({ query:( artistId ) => `/artists/details?artist_id=${artistId}` }),
-    getSongsByCountry: builder.query({ query:( countryCode ) => `/charts/country?country_code=${countryCode}` }),
-    getSongsBySearch: builder.query({ query:( searchTerm ) => `/search/multi?search_type=SONGS_ARTISTS&query=${searchTerm}` }),
+    getTopCharts: builder.query({
+      query: () => buildSongsSearchQuery('top songs'),
+      transformResponse: getSongsFromSearchResponse,
+    }),
+    getSongsByGenre: builder.query({
+      query: ({ genre }) => buildSongsSearchQuery(genre || 'top songs'),
+      transformResponse: getSongsFromSearchResponse,
+    }),
+    getSongDetails: builder.query({
+      query: ({ songid }) => `/tracks/details?track_id=${songid}`,
+    }),
+    getSongRelated: builder.query({
+      query: ({ songid }) => `/tracks/related?track_id=${songid}`,
+    }),
+    getArtistDetails: builder.query({
+      query: (artistId) => `/artists/details?artist_id=${artistId}`,
+    }),
+    getSongsByCountry: builder.query({
+      query: (countryCode) => buildSongsSearchQuery(`top songs ${countryCode || ''}`),
+      transformResponse: getSongsFromSearchResponse,
+    }),
+    getSongsBySearch: builder.query({
+      query: (searchTerm) => buildSongsSearchQuery(searchTerm),
+      transformResponse: getSongsFromSearchResponse,
+    }),
   }),
-})
 });
 export const {
   useGetTopChartsQuery,

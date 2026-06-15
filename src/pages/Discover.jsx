@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { FixedSizeGrid as Grid } from 'react-window';
+import AutoSizer from 'react-virtualized-auto-sizer';
+
 import { Error, Loader, SongCard } from '../components';
 import { genres } from '../assets/constants';
-import { useGetTopChartsQuery, useGetSongsByGenreQuery } from '../redux/services/shazamCore';
+import { useGetSongsByCountryQuery, useGetSongsByGenreQuery } from '../redux/services/shazamCore';
 import { selectGenreListId } from '../redux/features/playerSlice';
-import { FixedSizeGrid as Grid } from 'react-window';
-
-import AutoSizer from "react-virtualized-auto-sizer"; 
 
 const Discover = () => {
   const dispatch = useDispatch();
@@ -19,10 +19,11 @@ const Discover = () => {
     divRef.current?.scrollIntoView({ behavior: 'smooth' });
   });
   // 如果本地缓存已有对应内容，跳过查询
-  const cacheKey = useMemo(() => {
-    return genreListId ? `genre_${genreListId}` : `topCharts_${defaultCountry}`;
-  }, [genreListId, defaultCountry]);
-  
+  const cacheKey = useMemo(
+    () => (genreListId ? `genre_${genreListId}` : `topCharts_${defaultCountry}`),
+    [genreListId, defaultCountry],
+  );
+
   const hasCache = useMemo(() => {
     try {
       return !!localStorage.getItem(cacheKey);
@@ -34,18 +35,18 @@ const Discover = () => {
     data: topData,
     isFetching: isFetchingTop,
     error: topError,
-  } = useGetTopChartsQuery(defaultCountry, { skip: !!genreListId || hasCache });
+  } = useGetSongsByCountryQuery(defaultCountry, { skip: !!genreListId || hasCache });
   const {
     data: genreData,
     isFetching: isFetchingGenre,
     error: genreError,
   } = useGetSongsByGenreQuery(
-    { genre: genreListId, countryCode: "DZ" },
-    { skip: !genreListId || hasCache }
+    { genre: genreListId, countryCode: defaultCountry },
+    { skip: !genreListId || hasCache },
   );
   let data = genreListId ? genreData : topData;
-  let isFetching = genreListId ? isFetchingGenre : isFetchingTop;
-  let error = genreListId ? genreError : topError;
+  const isFetching = genreListId ? isFetchingGenre : isFetchingTop;
+  const error = genreListId ? genreError : topError;
 
   useEffect(() => {
     if (data) {
@@ -86,7 +87,7 @@ const Discover = () => {
           value={genreListId ?? ''}
           className="bg-black text-gray-300 rounded-lg p-3 outline-none"
         >
-        <option value="">推荐榜单</option>
+          <option value="">推荐榜单</option>
           {genres.map((genre) => (
             <option key={genre.value} value={genre.value}>
               {genre.title}

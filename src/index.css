@@ -172,6 +172,67 @@ body {
   animation: beat-note-float 1.8s ease-in-out infinite;
 }
 
+.beat-mascot-select {
+  width: 100%;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(15, 23, 42, 0.86);
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 10px;
+  line-height: 18px;
+  outline: none;
+  padding: 2px 6px;
+}
+
+.beat-mascot-select:focus {
+  border-color: rgba(103, 232, 249, 0.72);
+  box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.18);
+}
+
+.beat-mascot-cycle-button {
+  max-width: 96px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 18px;
+  padding: 1px 6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: background 160ms ease, color 160ms ease;
+}
+
+.beat-mascot-cycle-button:hover {
+  background: rgba(103, 232, 249, 0.24);
+  color: white;
+}
+
+.beat-mascot-action-travel {
+  animation: beat-action-travel 3.6s ease-in-out infinite;
+}
+
+.beat-mascot-action-commute {
+  animation: beat-action-commute 2.4s ease-in-out infinite;
+}
+
+.beat-mascot-action-fitness {
+  animation: beat-action-fitness 0.9s ease-in-out infinite;
+}
+
+.beat-mascot-action-sleep {
+  animation: beat-action-sleep 4s ease-in-out infinite;
+}
+
+.beat-mascot-action-emo {
+  animation: beat-action-emo 3.2s ease-in-out infinite;
+}
+
+.beat-mascot-action-beach {
+  animation: beat-action-beach 3s ease-in-out infinite;
+}
+
 @keyframes beat-note-float {
   0%, 100% {
     transform: translateY(0) rotate(-6deg);
@@ -179,5 +240,65 @@ body {
 
   50% {
     transform: translateY(-5px) rotate(6deg);
+  }
+}
+
+@keyframes beat-action-travel {
+  0%, 100% {
+    translate: 0 0;
+  }
+
+  50% {
+    translate: 5px -2px;
+  }
+}
+
+@keyframes beat-action-commute {
+  0%, 100% {
+    translate: 0 0;
+  }
+
+  50% {
+    translate: -3px 1px;
+  }
+}
+
+@keyframes beat-action-fitness {
+  0%, 100% {
+    translate: 0 0;
+  }
+
+  50% {
+    translate: 0 -5px;
+  }
+}
+
+@keyframes beat-action-sleep {
+  0%, 100% {
+    translate: 0 0;
+  }
+
+  50% {
+    translate: 0 -3px;
+  }
+}
+
+@keyframes beat-action-emo {
+  0%, 100% {
+    translate: 0 0;
+  }
+
+  50% {
+    translate: -2px 2px;
+  }
+}
+
+@keyframes beat-action-beach {
+  0%, 100% {
+    translate: -3px 0;
+  }
+
+  50% {
+    translate: 4px -2px;
   }
 }
