@@ -18,7 +18,12 @@ const SongCard = ({ song, i, isPlaying, activeSong, data }) => {
   return (
     <div className="flex flex-col w-full 
                 p-3 bg-white/5 backdrop-blur-sm rounded-lg cursor-pointer">
-      <div className="relative w-full  aspect-square   group overflow-hidden rounded-lg">
+      <button
+        type="button"
+        className="relative w-full aspect-square group overflow-hidden rounded-lg text-left"
+        onClick={handlePlayClick}
+        aria-label={`播放 ${song.attributes?.name || song.attributes?.albumName}`}
+      >
         <div
           className={`absolute inset-0 justify-center items-center bg-black bg-opacity-50 
         group-hover:flex 
@@ -33,7 +38,7 @@ const SongCard = ({ song, i, isPlaying, activeSong, data }) => {
           />
         </div>
         <img alt="song_img" src={song.attributes?.artwork?.url} className="w-full h-full rounded-lg" />
-      </div>
+      </button>
 
       <div className="mt-4 flex flex-col">
         <p className="font-semibold sm:text-base md:text-lg text-white truncate">{/* 标题太长 截断truncate */}

@@ -3,11 +3,12 @@ import { useSelector } from 'react-redux';
 
 import { useAudioPlayer } from '../../contexts/AudioPlayerContext';
 import MascotFigure from './components/MascotFigure';
-import MascotStatusPanel from './components/MascotStatusPanel';
+import MascotSettingsModal from './components/MascotSettingsModal';
 import { actionStates, getActionById, getAvailableActions } from './config/actionStates';
 import { defaultEmotionId, emotionStates, getEmotionById } from './config/emotionStates';
 import { MASCOT_SIZE } from './config/layout';
 import { mascotVariants } from './config/mascotVariants';
+import { defaultSkinSuiteId, getSkinSuiteById, skinSuites } from './config/skinSuites';
 import { useBeatMotion } from './hooks/useBeatMotion';
 import { useFloatingPosition } from './hooks/useFloatingPosition';
 
@@ -19,11 +20,14 @@ const FloatingBeatMascot = () => {
   const [mascotIndex, setMascotIndex] = useState(0);
   const [emotionId, setEmotionId] = useState(defaultEmotionId);
   const [actionId, setActionId] = useState(getInitialActionId(defaultEmotionId));
+  const [skinSuiteId, setSkinSuiteId] = useState(defaultSkinSuiteId);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const hasSong = Boolean(activeSong?.attributes?.name);
   const activeMascot = mascotVariants[mascotIndex];
   const emotionState = getEmotionById(emotionId);
   const availableActions = useMemo(() => getAvailableActions(emotionState.id), [emotionState.id]);
   const actionState = getActionById(actionId);
+  const skinSuite = getSkinSuiteById(skinSuiteId);
   const motion = useBeatMotion({
     audioElement,
     enabled: hasSong,
@@ -31,19 +35,17 @@ const FloatingBeatMascot = () => {
     motionProfile: emotionState.expression.motion,
   });
 
-  const songMeta = useMemo(() => ({
-    artist: activeSong?.attributes?.artistName || '',
-    title: activeSong?.attributes?.name || '',
-  }), [activeSong]);
-
   useEffect(() => {
     if (!availableActions.some((action) => action.id === actionId)) {
       setActionId(availableActions[0]?.id ?? actionStates[0].id);
     }
   }, [actionId, availableActions]);
 
-  const handleMascotChange = useCallback(() => {
-    setMascotIndex((currentIndex) => (currentIndex + 1) % mascotVariants.length);
+  const handleMascotChange = useCallback((nextMascotId) => {
+    const nextMascotIndex = mascotVariants.findIndex((mascot) => mascot.id === nextMascotId);
+    if (nextMascotIndex >= 0) {
+      setMascotIndex(nextMascotIndex);
+    }
   }, []);
 
   const handleEmotionChange = useCallback((nextEmotionId) => {
@@ -51,12 +53,20 @@ const FloatingBeatMascot = () => {
     setActionId(getInitialActionId(nextEmotionId));
   }, []);
 
+  const handleOpenSettings = useCallback(() => {
+    setIsSettingsOpen(true);
+  }, []);
+
+  const handleCloseSettings = useCallback(() => {
+    setIsSettingsOpen(false);
+  }, []);
+
   const {
     handlePointerDown,
     isDragging,
     position,
   } = useFloatingPosition({
-    onClick: handleMascotChange,
+    onClick: handleOpenSettings,
     resetKey: hasSong,
   });
 
@@ -83,18 +93,26 @@ const FloatingBeatMascot = () => {
             isPlaying={isPlaying}
             mascot={activeMascot}
             motion={motion}
+            skinSuite={skinSuite}
           />
-          <MascotStatusPanel
-            actionState={actionState}
-            availableActions={availableActions}
-            emotionState={emotionState}
-            emotionStates={emotionStates}
-            mascot={activeMascot}
-            onActionChange={setActionId}
-            onEmotionChange={handleEmotionChange}
-            onMascotChange={handleMascotChange}
-            songMeta={songMeta}
-          />
+          {isSettingsOpen ? (
+            <MascotSettingsModal
+              actionState={actionState}
+              actionStates={actionStates}
+              availableActions={availableActions}
+              emotionState={emotionState}
+              emotionStates={emotionStates}
+              mascot={activeMascot}
+              mascotVariants={mascotVariants}
+              onActionChange={setActionId}
+              onClose={handleCloseSettings}
+              onEmotionChange={handleEmotionChange}
+              onMascotChange={handleMascotChange}
+              onSkinSuiteChange={setSkinSuiteId}
+              skinSuite={skinSuite}
+              skinSuites={skinSuites}
+            />
+          ) : null}
         </div>
       </div>
     </div>
@@ -102,4 +120,3 @@ const FloatingBeatMascot = () => {
 };
 
 export default FloatingBeatMascot;
-

@@ -5,9 +5,11 @@ const MascotFigure = ({
   isPlaying,
   mascot,
   motion,
+  skinSuite,
 }) => {
   const Mascot = mascot.Component;
   const Outfit = actionState.Outfit;
+  const Effect = skinSuite.Effect;
   const motionProfile = emotionState.expression.motion;
   const bounceHeight = isDragging ? 0 : motion.bounce * motionProfile.bounceHeight;
   const scaleX = isDragging ? 1.02 : 1 + (motion.bounce * motionProfile.scaleX);
@@ -30,11 +32,11 @@ const MascotFigure = ({
         }}
       >
         <Mascot isPlaying={isPlaying} />
-        <Outfit />
+        {skinSuite.showActionOutfit ? <Outfit /> : null}
+        {Effect ? <Effect /> : null}
       </div>
     </>
   );
 };
 
 export default MascotFigure;
-
