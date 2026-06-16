@@ -457,6 +457,11 @@
       aspect-ratio: 9 / 13;
     }
 
+    .image-frame.app-shot {
+      aspect-ratio: 15 / 16;
+      background: rgba(8, 12, 22, 0.72);
+    }
+
     .image-frame.muchator-collage {
       display: grid;
       grid-template-columns: 1fr;
@@ -832,6 +837,19 @@
       font-weight: 700;
     }
 
+    .run-block {
+      margin-top: 16px;
+      padding: 16px 18px;
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.22);
+      color: #d8e3f5;
+      font-size: 14px;
+      line-height: 1.7;
+      white-space: pre;
+    }
+
     .footer {
       display: flex;
       justify-content: space-between;
@@ -926,36 +944,36 @@
         <span>情绪团子工作汇报</span>
       </a>
       <nav class="nav" aria-label="报告导航">
-        <a href="#product">产品描述</a>
+        <a href="#product">产品简介</a>
         <a href="#competition">竞品分析</a>
         <a href="#game">游戏拓展</a>
-        <a href="#mvp">MVP</a>
-        <a href="#business">商业闭环</a>
+        <a href="#mvp">功能落地</a>
+        <a href="#business">技术方案</a>
       </nav>
     </header>
 
     <section class="hero" id="top" aria-label="报告摘要">
       <div>
-        <p class="eyebrow">互联网产品方案报告 · 四段式汇报版</p>
+        <p class="eyebrow">Lyriks 产品工作汇报 · README 同步版</p>
         <h1>情绪团子</h1>
-        <p class="hero-copy">情绪团子是音乐 App 内的情绪陪伴型宠物。它把用户当下的一级情绪、二级动作状态、听歌场景、推荐内容和轻量互动连接起来，让用户在听歌时获得更明确的陪伴感。</p>
+        <p class="hero-copy">情绪团子是 Lyriks 里的情绪陪伴型音乐 Agent。它不是单纯的播放器挂件，也不是重度养成游戏，而是在用户听歌、选歌、搜索、分享和停留的过程中，用一个轻量可互动的团子把“我现在想怎么听歌”变成可选择、可反馈、可积累的体验。</p>
         <div class="metric-grid" aria-label="关键摘要">
           <div class="metric">
-            <strong>产品描述</strong>
-            <span>音乐 App 内的情绪陪伴型宠物。它不是单纯的播放页装饰，而是把用户当下的情绪、听歌场景和推荐内容连接起来，让用户在听歌时获得更明确的陪伴感。</span>
+            <strong>核心入口</strong>
+            <span>情绪团子作为全局浮层陪伴入口，承接情绪选择、播放反馈、推荐解释和轻互动。</span>
           </div>
           <div class="metric">
-            <strong>3 个主竞品</strong>
-            <span>汽水音乐、QQ 音乐、网易云音乐的【陪伴型玩法】作为重点，其余产品仅作补充参考。</span>
+            <strong>解决问题</strong>
+            <span>回应音乐产品里常见的情绪入口弱、推荐解释弱、播放陪伴弱、长期记忆弱和社交表达生硬。</span>
           </div>
           <div class="metric">
-            <strong>游戏拓展</strong>
-            <span>轻量 Web 游戏拓展玩法：户在播放音乐时，小宠物会根据当前情绪积累「情绪能量」。在 EMO 状态下，用户可以通过听歌、点击掉落物、长按陪伴等轻互动，为 EMO 小宠物加油，让它从「低电量 EMO」逐渐变成「被陪伴的 EMO」。</span>
+            <strong>当前版本</strong>
+            <span>已保留发现页、排行榜、歌手页、搜索、歌曲详情和底部播放器，并新增情绪团子、播放空间与轻量陪伴玩法。</span>
           </div>
-          <!-- <div class="metric">
-            <strong>商业闭环</strong>
-            <span>提升推荐消费和播放停留，再承接状态皮肤套装、动作资产和联名收入。</span>
-          </div> -->
+          <div class="metric">
+            <strong>轻游戏机制</strong>
+            <span>以“雨夜补给站”为首个玩法，不设失败、不惩罚、不打断音乐，让情绪在听歌过程中被看见。</span>
+          </div>
         </div>
       </div>
 
@@ -990,10 +1008,10 @@
         </div>
         <div class="stage-caption">
           <div>
-            <strong>当前 demo 基础</strong>
-            <div class="status">已有 FloatingBeatMascot：可拖拽、可点击切换形象、可读取音频频谱或播放进度驱动动作。</div>
+            <strong>当前产品主张</strong>
+            <div class="status">用情绪团子承接“为什么此刻想听这首歌”，把音乐播放、情绪状态、互动反馈和长期偏好串成连续体验。</div>
           </div>
-          <span class="chip">正在旅行</span>
+          <span class="chip">EMO 陪伴中</span>
         </div>
       </aside>
     </section>
@@ -1001,100 +1019,101 @@
     <section id="product">
       <div class="section-head">
         <div>
-          <p class="eyebrow">Tab 1 · 产品描述</p>
-          <h2>音乐app陪伴型玩法：可交互情绪IP形象</p2>
+          <p class="eyebrow">Tab 1 · 产品简介</p>
+          <h2>把“我现在想怎么听歌”做成音乐产品里的明确入口。</h2>
         </div>
-        <p class="section-lead">产品主语言来自《产品方案.docx》：用户先认领基础团子，再设置一级情绪和可选的二级动作状态。一级情绪表达“我现在是什么感觉”，二级动作状态表达“我现在正在做什么，想以什么样子待在这个情绪里”。结合 MuChator 论文语境，情绪团子承接的是情境化、口语化、主动表达的音乐发现需求。</p>
+        <p class="section-lead">传统音乐 App 更擅长围绕歌曲、榜单、歌手和推荐流组织体验，但用户打开 App 的真实动机常常不是找一首确定的歌，而是想找一种状态。情绪团子要做的，就是把这种模糊但高频的听歌动机显性承接下来。</p>
       </div>
 
       <div class="product-grid">
         <div class="card">
-          <h3>一句话定义</h3>
-          <p>情绪团子是音乐 App 内的情绪陪伴型宠物。用户选择或创建自己的团子形象，并为团子设置“一级情绪 + 二级动作状态”。团子出现在播放页或音乐空间中，随音乐节奏、歌词氛围和情绪转折做出反应，并影响推荐歌单的内容方向。</p>
-          <p>例如用户选择“放松 + 正在旅行”，团子可以呈现旅行家皮肤，背着包、拿着地图，在海边或城市背景中移动；推荐歌单也会更偏旅行、民谣、Chill 或轻松氛围。</p>
+          <h3>要解决的问题</h3>
+          <ul>
+            <li>情绪入口弱：用户想找的是放松、EMO、专注、通勤提神等状态，而不是一首明确的歌。</li>
+            <li>推荐解释弱：用户常常只能看到“听什么”，却不知道“为什么适合现在”。</li>
+            <li>播放陪伴弱：传统播放页以封面、歌词和控制器为主，轻互动和情绪反馈不足。</li>
+            <li>长期记忆弱：每次听歌产生的状态选择和偏好没有沉淀成“越来越懂我”的关系。</li>
+            <li>社交表达生硬：分享常常只是链接转发，缺少更轻、更有情绪温度的表达。</li>
+          </ul>
         </div>
         <div class="card">
-          <h3>核心定位</h3>
+          <h3>产品方案</h3>
           <ul>
-            <li>：1.情绪陪伴型音乐宠物，承接用户“当下想听什么”的模糊需求。</li>
-            <li>2.作为陪伴可交互形象，满足用户的互动需求。</li>
-            <li>3.游戏拓展，增加互动性，完成进一步情绪补给。</li>
+            <li>用情绪团子作为全局入口：团子悬浮在音乐 App 中，随播放状态、节奏和用户选择产生反馈。</li>
+            <li>用一级情绪和二级动作状态组织听歌：例如 EMO、放松、专注、元气，再映射到雨夜补给、海边放松、书桌专注等场景。</li>
+            <li>用播放空间增强陪听：在 `/play` 页面把当前歌曲、歌词信息、元数据和情绪小游戏放到一起展示。</li>
+            <li>用轻游戏机制沉淀陪伴感：听歌或点击掉落物即可积累共鸣能量，不设失败，不制造压力。</li>
+            <li>用长期记忆形成个性化：记录常选情绪、常听风格、偏好时段和打扰偏好，但不做心理诊断。</li>
           </ul>
         </div>
       </div>
 
-      <!-- 具体一点 -->
       <div class="flow" aria-label="产品闭环">
         <div class="flow-item">
-          <strong>认领情绪团子</strong>
-          <span>用户选择基础团子形象，作为自己在音乐 App 中的陪伴宠物。</span>
+          <strong>进入音乐首页</strong>
+          <span>用户先浏览发现页、榜单、搜索或歌曲详情，情绪团子作为全局浮层持续在场。</span>
         </div>
         <div class="flow-item">
-          <strong>设置两层状态</strong>
-          <span>先选择一级情绪，再选择可选的二级动作状态，例如放松 + 正在旅行。</span>
+          <strong>选择情绪状态</strong>
+          <span>用户主动选择自己此刻想要的听歌状态，系统可推荐，但任何切换都需要确认。</span>
         </div>
         <div class="flow-item">
-          <strong>情绪适配推荐</strong>
-          <span>一级情绪决定推荐基调，二级动作状态细化场景歌单和推荐标签。</span>
+          <strong>生成推荐方向</strong>
+          <span>系统根据情绪、动作状态、最近听歌行为和场景语境调整推荐基调与歌单旅程。</span>
         </div>
         <div class="flow-item">
-          <strong>陪伴听歌</strong>
-          <span>团子根据节奏、音量、歌词氛围和情绪转折跳跃、漂浮、慢晃或发光。</span>
+          <strong>进入播放空间</strong>
+          <span>当前歌曲封面、歌名、歌手、歌词陪伴文案和元数据在沉浸式听歌空间里共同呈现。</span>
         </div>
         <div class="flow-item">
-          <strong>形象成长</strong>
-          <span>用户通过任务、活动或成就解锁更多动作状态和皮肤套装。</span>
+          <strong>积累陪伴记忆</strong>
+          <span>通过轻游戏反馈、状态选择和歌单偏好，让陪伴关系持续可感知、可积累。</span>
         </div>
       </div>
 
       <div class="cards" style="margin-top: 14px;">
         <article class="card">
-          <h3>主体音乐形象</h3>
-          <p>团子是用户在音乐 App 虚拟空间中的基础形象，可以从圆滚滚团子扩展到动物型、精灵型、漂浮型等形态。</p>
+          <h3>音乐发现与播放</h3>
+          <p>当前应用保留完整音乐产品基础能力，包括发现页、榜单页、附近音乐、搜索、歌曲详情和底部播放器，保证情绪能力是在真实音乐主链路上演进，而不是孤立 demo。</p>
         </article>
         <article class="card">
-          <h3>一级情绪表现</h3>
-          <p>一级情绪决定团子的颜色、光效、表情和整体氛围，也决定推荐的大方向。</p>
+          <h3>情绪团子浮层</h3>
+          <p>团子承担状态展示、快捷交互和节奏响应三类职责，会根据当前情绪、播放状态和互动模式展示不同表情、动作、皮肤和特效。</p>
         </article>
         <article class="card">
-          <h3>二级动作状态</h3>
-          <p>动作状态决定皮肤套装、道具、动作和场景背景，也会影响更细的推荐标签。</p>
+          <h3>情绪状态与设置</h3>
+          <p>首版状态强调克制表达，不诊断用户心理状态，不用强判断语气定义用户，也不强行把低落情绪扭转成开心，而是优先陪伴、承认和轻量引导。</p>
         </article>
       </div>
 
       <div class="card" style="margin-top: 14px;">
-        <h3>情绪与状态体系</h3>
-        <p>新版产品方案将团子状态拆成两层：一级情绪回答“我现在是什么感觉”，二级动作状态回答“我现在正在做什么，想以什么样子待在这个情绪里”。情绪保持克制，场景、曲风、语言和活动沉淀为动作状态或推荐标签。</p>
-        <div class="pill-list" aria-label="12 种基础情绪">
-          <span class="pill">平静</span>
-          <span class="pill">快乐</span>
-          <span class="pill">治愈</span>
-          <span class="pill">放松</span>
-          <span class="pill">低落</span>
+        <h3>播放空间与首版场景</h3>
+        <p>`/play` 页面是 Lyriks 的沉浸式听歌空间。用户播放歌曲后，可以从旋转封面进入页面，看到当前歌曲封面、歌名和歌手、歌词陪伴文案、专辑/曲风/发行日期等歌曲元信息，以及情绪小游戏“雨夜补给站”。</p>
+        <div class="pill-list" aria-label="首版核心情绪">
           <span class="pill">EMO</span>
-          <span class="pill">浪漫</span>
-          <span class="pill">怀旧</span>
-          <span class="pill">元气</span>
+          <span class="pill">放松</span>
           <span class="pill">专注</span>
+          <span class="pill">元气</span>
+          <span class="pill">平静</span>
+          <span class="pill">低落</span>
           <span class="pill">孤独</span>
-          <span class="pill">幸运</span>
         </div>
         <div class="state-grid">
           <div class="state-item">
-            <strong>正在旅行/旅行家</strong>
-            <span>背包、地图、相机；移动、张望、拍照，适配放松、快乐、治愈。</span>
-          </div>
-          <div class="state-item">
-            <strong>正在通勤/驾驶</strong>
-            <span>车窗、耳机、路线；轻晃、看窗外，适配元气、专注、平静。</span>
-          </div>
-          <div class="state-item">
-            <strong>深夜 EMO</strong>
-            <span>暗色、雨滴、雾气；缩成一团、慢速晃动，适配 EMO、低落、孤独。</span>
+            <strong>雨夜补给站</strong>
+            <span>EMO 状态下的轻量陪伴玩法，掉落雨滴音符、歌词碎片和共鸣光点，能量满后触发团子状态变化。</span>
           </div>
           <div class="state-item">
             <strong>海边放松</strong>
-            <span>海浪、躺椅、贝壳；轻晃、晒太阳，适配放松、治愈。</span>
+            <span>适配放松和治愈，突出轻晃、呼吸感和慢节奏陪听，强调“陪你待在这个状态里”。</span>
+          </div>
+          <div class="state-item">
+            <strong>书桌专注</strong>
+            <span>适配专注状态，把书桌、时钟和灵感点映射为陪听场景，让推荐与专注语境一致。</span>
+          </div>
+          <div class="state-item">
+            <strong>通勤提神</strong>
+            <span>适配元气和平静，结合时间段、最近听歌行为与出行语境提供更具体的推荐解释。</span>
           </div>
         </div>
       </div>
@@ -1336,113 +1355,76 @@
     <section id="mvp">
       <div class="section-head">
         <div>
-          <p class="eyebrow">Tab 4 · MVP</p>
-          <h2>用 demo 跑通“选情绪、看团子、听推荐”的最小闭环。</h2>
+          <p class="eyebrow">Tab 4 · 功能落地</p>
+          <h2>当前原型已经把音乐主链路、团子入口和听歌空间连成一个体验闭环。</h2>
         </div>
-        <p class="section-lead">MVP 以现有 FloatingBeatMascot 为基础，完成播放页浮动团子、节奏动效、一级情绪选择、二级动作状态、情绪推荐位和推荐解释，让用户直接感知“情绪定基调，动作状态定场景”。</p>
+        <p class="section-lead">现阶段产品基于 React/Vite 构建，保留音乐发现与播放能力，并新增情绪团子浮层、播放空间和情绪小游戏。下面两张效果图对应“首页接管建议”和“情绪切换确认”两个关键入口。</p>
       </div>
 
       <div class="project-effects" aria-label="当前项目效果示意图">
-        <figure class="project-shot">
-          <div class="project-shot-inner">
-            <h3>Discover Top</h3>
-            <div class="project-select">推荐榜单</div>
-            <div class="album-grid">
-              <div class="album-card"><div class="album-art" style="--cover: linear-gradient(135deg, #f9a8d4, #60a5fa);"></div><strong>Golden</strong><span>HUNTR/X, EJA...</span></div>
-              <div class="album-card"><div class="album-art" style="--cover: linear-gradient(135deg, #a3e635, #84cc16);"></div><strong>Everything is...</strong><span>Charli xcx & Caroline...</span></div>
-              <div class="album-card"><div class="album-art" style="--cover: linear-gradient(135deg, #fee2e2, #f8fafc);"></div><strong>Sugar On My T...</strong><span>Tyler, The Creator</span></div>
-              <div class="album-card"><div class="album-art" style="--cover: radial-gradient(circle, #7f1d1d, #1e293b);"></div><strong>Ordinary</strong><span>Alex Warren</span></div>
-              <div class="album-card"><div class="album-art" style="--cover: linear-gradient(135deg, #86efac, #fb7185);"></div><strong>The Fate Of Op...</strong><span>Taylor Swift</span></div>
-              <div class="album-card"><div class="album-art" style="--cover: linear-gradient(135deg, #e5e7eb, #111827);"></div><strong>Камин</strong><span>EMIN & JONY</span></div>
-              <div class="album-card"><div class="album-art" style="--cover: linear-gradient(135deg, #67e8f9, #fb7185);"></div><strong>Starburster</strong><span>Fontaines D.C.</span></div>
-              <div class="album-card"><div class="album-art" style="--cover: linear-gradient(135deg, #0f172a, #22c55e);"></div><strong>Man</strong><span>Oklou</span></div>
-            </div>
-            <div class="shot-mascot">⌣</div>
-            <div class="shot-bubble">Ordinary<br>开心团子 · 跟随节奏轻轻跳动</div>
-            <div class="project-player">
-              <div class="player-cover" style="--cover: radial-gradient(circle, #fda4af, #7f1d1d);"></div>
-              <div class="player-meta"><strong>Ordinary</strong><span>Alex Warren</span></div>
-              <div class="player-controls">◁Ⅱ▷<div class="mini-progress" style="--progress: 58%;"><span></span></div></div>
-            </div>
+        <figure class="image-card">
+          <div class="image-frame app-shot">
+            <img src="report_assets/效果图.png" alt="情绪团子首页接管建议效果图">
           </div>
+          <figcaption class="image-body">
+            <strong>效果图 1 · 首页接管建议</strong>
+            <p>首页展示“今日接管”入口，团子以“快乐 · 正在旅行”的状态给出更贴近当下心情的听歌方向，并同步开启多模态陪听特效。</p>
+          </figcaption>
         </figure>
-
-        <figure class="project-shot">
-          <div class="project-shot-inner">
-            <h3>Discover Top</h3>
-            <div class="project-select">推荐榜单</div>
-            <div class="album-grid">
-              <div class="album-card"><div class="album-art" style="--cover: linear-gradient(135deg, #f9a8d4, #60a5fa);"></div><strong>Golden</strong><span>HUNTR/X, EJA...</span></div>
-              <div class="album-card"><div class="album-art" style="--cover: linear-gradient(135deg, #a3e635, #84cc16);"></div><strong>Everything is...</strong><span>Charli xcx & Caroline...</span></div>
-              <div class="album-card"><div class="album-art" style="--cover: linear-gradient(135deg, #fee2e2, #f8fafc);"></div><strong>Sugar On My T...</strong><span>Tyler, The Creator</span></div>
-              <div class="album-card"><div class="album-art" style="--cover: radial-gradient(circle, #fef3c7, #172554);"></div><strong>Ordinary</strong><span>Alex Warren</span></div>
-              <div class="album-card"><div class="album-art" style="--cover: linear-gradient(135deg, #86efac, #fb7185);"></div><strong>The Fate Of Op...</strong><span>Taylor Swift</span></div>
-              <div class="album-card"><div class="album-art" style="--cover: linear-gradient(135deg, #e5e7eb, #111827);"></div><strong>Камин</strong><span>EMIN & JONY</span></div>
-              <div class="album-card"><div class="album-art" style="--cover: linear-gradient(135deg, #67e8f9, #fb7185);"></div><strong>Starburster</strong><span>Fontaines D.C.</span></div>
-              <div class="album-card"><div class="album-art" style="--cover: linear-gradient(135deg, #f1f5f9, #64748b);"></div><strong>Man I / On The...</strong><span>Olivia D & King P</span></div>
-            </div>
-            <div class="shot-mascot cloud">⌣</div>
-            <div class="shot-bubble">On The Floor<br>放松状态 · 云朵团子轻晃</div>
-            <div class="project-player">
-              <div class="player-cover" style="--cover: linear-gradient(135deg, #e2e8f0, #334155);"></div>
-              <div class="player-meta"><strong>On The Floor</strong><span>Sir Trill & King P</span></div>
-              <div class="player-controls">◁Ⅱ▷<div class="mini-progress" style="--progress: 12%;"><span></span></div></div>
-            </div>
+        <figure class="image-card">
+          <div class="image-frame app-shot">
+            <img src="report_assets/效果图-1.png" alt="情绪团子状态确认弹窗效果图">
           </div>
+          <figcaption class="image-body">
+            <strong>效果图 2 · 状态确认弹窗</strong>
+            <p>用户切换到“平静 · 通勤/驾驶”时，先看到接管确认，再进入对应听歌状态，保证状态切换始终由用户确认，不做强替用户判断。</p>
+          </figcaption>
         </figure>
       </div>
 
       <div class="mvp">
         <article class="demo-panel">
-          <h3>Demo 效果</h3>
-          <p>页面中出现一个浮动情绪团子。播放歌曲后，团子跟随节奏上下弹动、倾斜、发光；用户点击团子可切换基础形象和一级情绪；点击“正在旅行”可叠加二级动作状态皮肤。</p>
-          <div class="demo-screen" aria-label="demo 效果示意">
-            <div class="stage-lines"></div>
-            <svg class="floating-demo" viewBox="0 0 260 260" role="img" aria-label="demo 团子">
-              <defs>
-                <linearGradient id="demo-body" x1="22%" y1="0%" x2="82%" y2="100%">
-                  <stop offset="0%" stop-color="#fff7ed"/>
-                  <stop offset="42%" stop-color="#ff8fc3"/>
-                  <stop offset="100%" stop-color="#39d5ee"/>
-                </linearGradient>
-              </defs>
-              <ellipse cx="130" cy="222" rx="58" ry="16" fill="rgba(0,0,0,0.28)"/>
-              <circle cx="130" cy="128" r="82" fill="url(#demo-body)"/>
-              <ellipse cx="104" cy="82" rx="42" ry="24" fill="#fff" opacity="0.4"/>
-              <circle cx="96" cy="119" r="10" fill="#12172a"/>
-              <circle cx="164" cy="119" r="10" fill="#12172a"/>
-              <path d="M105 157 C119 174 143 174 157 157" fill="none" stroke="#18123f" stroke-width="9" stroke-linecap="round"/>
-            </svg>
-            <div class="demo-track">
-              <div class="album"></div>
-              <div>
-                <strong>放松团子正在匹配下一首</strong>
-                <p class="status">降低节奏强度，减少强鼓点，保留温柔人声。</p>
-                <div class="progress"><span></span></div>
-              </div>
+          <h3>当前版本已完成</h3>
+          <p>当前原型不是孤立页面，而是已经放进完整音乐应用里。用户可以从发现页、榜单页、搜索和歌曲详情进入播放，再由团子承接情绪状态选择、陪听反馈和轻互动。</p>
+          <div class="mini-grid">
+            <div class="mini">
+              <strong>情绪团子浮层</strong>
+              <span>根据当前情绪、播放状态和互动模式切换表情、动作、皮肤与特效。</span>
+            </div>
+            <div class="mini">
+              <strong>播放空间</strong>
+              <span>在 `/play` 页面集中展示歌曲信息、歌词陪伴文案、元数据和情绪小游戏。</span>
+            </div>
+            <div class="mini">
+              <strong>雨夜补给站</strong>
+              <span>播放歌曲后自动积累共鸣能量，点击掉落物可以进一步加速，不设置失败和惩罚。</span>
+            </div>
+            <div class="mini">
+              <strong>分享表达</strong>
+              <span>围绕“更轻、更有情绪温度”的方向设计团子式分享文案和状态表达。</span>
             </div>
           </div>
         </article>
 
         <aside>
           <div class="card">
-            <h3>MVP 上线内容</h3>
+            <h3>核心体验原则</h3>
             <ul>
-              <li>一级情绪：开放 12 种一级情绪入口，并在 demo 中优先展示平静、快乐、放松、EMO、元气等高频情绪。</li>
-              <li>二级动作状态：开放正在旅行/旅行家、正在通勤/驾驶、正在健身、正在助眠、深夜 EMO、海边放松。</li>
-              <li>播放页陪伴：团子以浮动层出现在播放页，支持拖拽、点击切换和动作状态皮肤切换。</li>
-              <li>节奏反馈：根据真实音频频谱或播放进度驱动弹跳、倾斜、缩放和发光。</li>
-              <li>推荐联动：展示“团子为你推荐”的情绪歌单，并用一句话说明推荐原因。</li>
+              <li>不诊断用户心理状态，不输出医学化或武断化结论。</li>
+              <li>系统可以推荐状态，但任何重要动作都由用户确认后执行。</li>
+              <li>在低落、EMO、孤独等场景下优先陪伴、承认和轻量引导，而不是强行转正。</li>
+              <li>轻互动要服务于听歌主线，不打断播放，不把产品重心变成重度游戏。</li>
+              <li>所有结果优先结构化表达，再由前端组件决定最终 UI 呈现。</li>
             </ul>
           </div>
           <div class="mini-grid">
             <div class="mini">
               <strong>体验目标</strong>
-              <span>用户完成“选择一级情绪 - 切换二级动作状态 - 播放歌曲 - 看到团子反馈 - 点击推荐”的完整路径。</span>
+              <span>让用户感知“情绪会影响我此刻怎么听”，而不仅是被动接收推荐流。</span>
             </div>
             <div class="mini">
-              <strong>验证指标</strong>
-              <span>推荐点击率、播放页停留、情绪切换率、分享率。</span>
+              <strong>阶段指标</strong>
+              <span>关注播放页停留、状态切换率、推荐点击率、分享率和轻游戏参与度。</span>
             </div>
           </div>
         </aside>
@@ -1450,28 +1432,28 @@
 
       <div class="tech-grid" aria-label="技术实现">
         <div class="tech-node">
-          <strong>前端框架</strong>
-          <span>当前项目基于 React 18、Vite、Tailwind CSS、Redux Toolkit、React Router。MVP 可直接在现有 lyriks 原型中迭代。</span>
+          <strong>音乐基础能力</strong>
+          <span>保留发现页、排行榜、歌手页、搜索、歌曲详情和底部播放器，情绪能力建立在真实音乐信息架构之上。</span>
         </div>
         <div class="tech-node">
-          <strong>播放状态接入</strong>
-          <span>通过 Redux playerSlice 读取 activeSong 和 isPlaying，通过 AudioPlayerContext 获取 audioElement。</span>
+          <strong>陪伴入口</strong>
+          <span>团子承担状态展示、快捷交互和节奏响应三类功能，是连接音乐主链路与情绪互动的统一入口。</span>
         </div>
         <div class="tech-node">
-          <strong>音频频谱驱动</strong>
-          <span>FloatingBeatMascot 使用 AudioContext、createMediaElementSource、AnalyserNode，读取低频、中频、全频和时域能量。</span>
+          <strong>播放空间</strong>
+          <span>沉浸式 `/play` 页面把当前歌曲、歌词陪伴文案、歌曲元信息和情绪小游戏组织成一页内的连续体验。</span>
         </div>
         <div class="tech-node">
-          <strong>动效策略</strong>
-          <span>根据 beatLevel 计算 bounce、glow、tilt，并按不同团子的 motion profile 调整弹跳高度、缩放、倾斜和响应速度。</span>
+          <strong>轻游戏机制</strong>
+          <span>通过自动积累能量和点击掉落物的方式，让情绪被看见而不是被对抗，延长陪听体验的反馈链路。</span>
         </div>
         <div class="tech-node">
-          <strong>交互能力</strong>
-          <span>Pointer Events 支持拖拽，点击切换团子形象，按钮切换“正在旅行”动作状态皮肤。位置会在窗口缩放时自动 clamp 到视口内。</span>
+          <strong>推荐表达</strong>
+          <span>不仅告诉用户“听什么”，还通过团子口吻说明“为什么适合现在”以及“接下来可以怎么听”。</span>
         </div>
         <div class="tech-node">
-          <strong>降级方案</strong>
-          <span>当真实频谱不可用或持续静音时，使用 currentTime 的 fallback beat，保证 demo 在跨域音频或浏览器限制下仍有可见节奏。</span>
+          <strong>长期记忆</strong>
+          <span>记录常选情绪、常听风格、偏好时段和打扰偏好，形成轻量偏好摘要，而非敏感的心理结论。</span>
         </div>
       </div>
     </section>
@@ -1479,36 +1461,39 @@
     <section id="business">
       <div class="section-head">
         <div>
-          <p class="eyebrow">Tab 5 · 商业闭环</p>
-          <h2>从推荐增强到会员权益，再到虚拟装扮和品牌联名。</h2>
+          <p class="eyebrow">Tab 5 · 技术方案</p>
+          <h2>前端、状态上下文和多 Agent 工作流一起支撑情绪陪伴体验。</h2>
         </div>
-        <p class="section-lead">收益逻辑来自《收益闭环.docx》：情绪团子不是趣味贴片，而是把听歌、推荐、会员、社交和轻量游戏奖励包装成一个更有情绪感和可消费空间的虚拟形象系统。</p>
+        <p class="section-lead">Lyriks 采用“前端 UI + 播放状态 + 情绪上下文 + 多 Agent 工作流”的组织方式。这里仅保留与产品落地直接相关的能力说明，不展开调试链路与 debug 细节。</p>
       </div>
 
       <div class="cards">
         <article class="card">
-          <h3>第一层：提升听歌与推荐消费</h3>
+          <h3>前端栈</h3>
           <ul>
-            <li>团子让播放页从静态工具变成有反馈、有陪伴、有互动的空间。</li>
-            <li>“兴奋团子为你推荐”“放松团子正在匹配”比普通推荐更容易被理解和点击。</li>
-            <li>核心指标：播放页停留、推荐点击率、播放转化、完播率。</li>
+            <li>基于 React 18、Vite、Redux Toolkit、React Router 与 Tailwind CSS 搭建。</li>
+            <li>`src/App.jsx` 负责应用路由、全局布局、播放器和情绪团子挂载。</li>
+            <li>`src/pages/` 承接发现、榜单、搜索、歌曲详情、歌手详情和播放空间等页面。</li>
           </ul>
         </article>
         <article class="card">
-          <h3>第二层：增加会员付费感知</h3>
+          <h3>情绪团子模块</h3>
           <ul>
-            <li>基础团子免费，会员解锁更多团子形象、动态表现、二级动作状态、专属音效和歌词背景。</li>
-            <li>会员权益从“无广告、高音质、下载”扩展到年轻用户更容易感知的形象表达。</li>
-            <li>核心指标：会员入口点击、皮肤试用、会员转化率。</li>
+            <li>`src/features/emotionMascot/` 负责状态配置、组件、上下文、Agent、Skill、Workflow 和记忆。</li>
+            <li>`buildMascotSessionContext` 汇总播放状态、团子状态、页面状态和本地记忆，生成本次陪伴上下文。</li>
+            <li>前端优先消费结构化结果，再渲染为气泡、状态、特效、歌单、日记或小游戏反馈。</li>
           </ul>
         </article>
         <article class="card">
-          <h3>第三层：虚拟道具与联名收入</h3>
+          <h3>本地运行</h3>
           <ul>
-            <li>状态皮肤套装、动作表现、背景场景、表情包、音效包可以成为可购买或可解锁资产。</li>
-            <li>歌手新专辑、演唱会、影视 OST 和品牌活动可以推出限定团子形象或状态套装。</li>
-            <li>核心指标：道具购买、活动参与、分享曝光、联名转化。</li>
+            <li>项目当前前端位于 `lyriks/src`，可直接在现有原型上持续迭代。</li>
+            <li>启动后通过 Vite 本地地址访问，验证音乐主链路、团子浮层和播放空间效果。</li>
+            <li>README 已给出最小运行步骤，适合作为产品验收与演示入口。</li>
           </ul>
+          <div class="run-block">cd lyriks
+npm install
+npm run dev</div>
         </article>
       </div>
 
@@ -1516,41 +1501,52 @@
         <table>
           <thead>
             <tr>
-              <th>阶段</th>
-              <th>产品动作</th>
-              <th>业务目标</th>
-              <th>观察指标</th>
+              <th>场景</th>
+              <th>使用 Agent</th>
+              <th>核心输出</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>MVP</td>
-              <td>基础团子、播放页动效、一级情绪、二级动作状态、情绪推荐位、推荐解释。</td>
-              <td>证明陪伴感和两层状态入口能提升听歌消费。</td>
-              <td>推荐点击率、播放页停留、情绪切换率、分享率。</td>
+              <td>首页需要今日状态建议</td>
+              <td>`emotion_mascot_coordinator`</td>
+              <td>是否提示、推荐情绪、推荐动作和一句接管文案。</td>
             </tr>
             <tr>
-              <td>V1</td>
-              <td>轻量成长、听歌反馈记忆、更多二级动作状态和状态皮肤套装。</td>
-              <td>提高留存和用户对团子的拥有感。</td>
-              <td>7 日留存、30 日留存、连续使用率、收藏与完播提升。</td>
+              <td>用户表达“今晚想安静点”或点击情绪设置</td>
+              <td>`emotion_understanding_agent`</td>
+              <td>一级情绪、二级动作状态和置信度。</td>
             </tr>
             <tr>
-              <td>V2</td>
-              <td>会员状态套装、场景套装、歌手联名、主题活动。</td>
-              <td>形成会员权益和虚拟资产收入。</td>
-              <td>会员转化、道具购买、活动转化、联名曝光。</td>
+              <td>用户希望按当前情绪听一组歌</td>
+              <td>`music_recommendation_agent`</td>
+              <td>情绪歌单旅程、阶段说明和推荐理由。</td>
+            </tr>
+            <tr>
+              <td>歌曲播放到高潮、歌词段落或节奏变化</td>
+              <td>`multimodal_listening_effect_agent`</td>
+              <td>团子动作、粒子、光效和持续时间。</td>
+            </tr>
+            <tr>
+              <td>用户在 EMO、低落或孤独状态停留较久</td>
+              <td>`emotion_stamina_agent`</td>
+              <td>继续陪伴、温和转场或结束提示。</td>
+            </tr>
+            <tr>
+              <td>一段听歌会话结束，需要生成总结或分享表达</td>
+              <td>`emotion_diary_agent` / `social_mascot_agent`</td>
+              <td>今日听歌日记、状态摘要和更有温度的分享文案。</td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <div class="quote" style="margin-top: 16px;">最终建议：情绪团子的 MVP 要先把“音乐推荐的前台角色”跑通，再逐步升级为“用户音乐身份资产”。主线始终围绕听歌、推荐、会员和分享，不让宠物玩法脱离音乐 App 主流程。</div>
+      <div class="quote" style="margin-top: 16px;">情绪团子的核心不是再造一个播放器，而是让音乐产品第一次正面承接“我现在想怎么被音乐陪着”这件事。</div>
     </section>
 
     <footer class="footer">
-      <span>资料来源：项目本地《产品方案.docx》《收益闭环.docx》《情绪团子竞品调研报告.md》《三种app中陪伴小宠形象调研.docx》与 lyriks 前端原型。</span>
-      <span>生成日期：2026-06-15</span>
+      <span>资料来源：项目本地 `README.md`、保留的竞品调研与游戏拓展文档，以及 lyriks 前端原型效果图。</span>
+      <span>更新日期：2026-06-17</span>
     </footer>
   </main>
 </body>
