@@ -16,9 +16,11 @@ const MascotSettingsModal = ({
   onClose,
   onEmotionChange,
   onMascotChange,
+  onEffectsEnabledChange,
   onSkinSuiteChange,
   skinSuite,
   skinSuites,
+  effectsEnabled,
 }) => {
   const [activeTabId, setActiveTabId] = useState(mascotSettingTabs[0].id);
 
@@ -111,6 +113,21 @@ const MascotSettingsModal = ({
             <HiOutlineX size={22} />
           </button>
         </header>
+
+        <div className="emotion-mascot-agent-row">
+          <div>
+            <strong>多模态陪听特效</strong>
+            <span>播放时在团子附近生成短暂情绪反馈</span>
+          </div>
+          <button
+            type="button"
+            className={`emotion-mascot-switch ${effectsEnabled ? 'is-on' : ''}`}
+            aria-pressed={effectsEnabled}
+            onClick={() => onEffectsEnabledChange(!effectsEnabled)}
+          >
+            <span />
+          </button>
+        </div>
 
         <div className="emotion-mascot-tabs" role="tablist" aria-label="情绪团子设置分类">
           {mascotSettingTabs.map((tab) => (

@@ -15,7 +15,7 @@ const ChoiceList = ({
           type="button"
           className={`emotion-mascot-choice ${isSelected ? 'is-selected' : ''}`}
           disabled={isDisabled}
-          onClick={() => onSelect(item.id)}
+          onClick={() => onSelect(item.id, item)}
         >
           <span className="emotion-mascot-choice-title">{item.label}</span>
           {item.description || item.intent || item.shortLabel ? (
@@ -30,4 +30,3 @@ const ChoiceList = ({
 );
 
 export default ChoiceList;
-

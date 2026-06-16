@@ -135,5 +135,10 @@ export const mascotVariants = [
     description: '漂浮型团子',
     Component: SlimeMascot,
   },
+  {
+    id: 'hidden',
+    label: '让团子消失',
+    description: '停止 Agent loop 和陪听反馈',
+    Component: OriginalMascot,
+  },
 ];
-

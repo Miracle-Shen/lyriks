@@ -1,27 +1,34 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { FixedSizeGrid as Grid } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
+import { FixedSizeGrid as Grid } from 'react-window';
 
-import { Error, Loader, SongCard } from '../components';
 import { genres } from '../assets/constants';
-import { useGetSongsByCountryQuery, useGetSongsByGenreQuery } from '../redux/services/shazamCore';
+import { Error, Loader, SongCard } from '../components';
+import { getActionById } from '../features/emotionMascot/config/actionStates';
+import { getEmotionById } from '../features/emotionMascot/config/emotionStates';
+import { useEmotionMascot } from '../features/emotionMascot/context/EmotionMascotContext';
 import { selectGenreListId } from '../redux/features/playerSlice';
+import { useGetSongsByGenreQuery, useGetTopChartsQuery } from '../redux/services/shazamCore';
+
+const defaultCountry = 'US';
 
 const Discover = () => {
   const dispatch = useDispatch();
   const divRef = useRef(null);
-  const { isPlaying, activeSong } = useSelector((state) => state.player);
-  const { genreListId } = useSelector((state) => state.player);
+  const { activeSong, isPlaying, genreListId } = useSelector((state) => state.player);
+  const { actionId, effectsEnabled, emotionId, handoverDate, todayKey } = useEmotionMascot();
+  const emotionState = getEmotionById(emotionId);
+  const actionState = getActionById(actionId);
+  const hasHandoverToday = handoverDate === todayKey;
 
-  const defaultCountry = 'DZ';
   useEffect(() => {
     divRef.current?.scrollIntoView({ behavior: 'smooth' });
-  });
-  // 如果本地缓存已有对应内容，跳过查询
+  }, []);
+
   const cacheKey = useMemo(
     () => (genreListId ? `genre_${genreListId}` : `topCharts_${defaultCountry}`),
-    [genreListId, defaultCountry],
+    [genreListId],
   );
 
   const hasCache = useMemo(() => {
@@ -31,19 +38,22 @@ const Discover = () => {
       return false;
     }
   }, [cacheKey]);
+
   const {
     data: topData,
-    isFetching: isFetchingTop,
     error: topError,
-  } = useGetSongsByCountryQuery(defaultCountry, { skip: !!genreListId || hasCache });
+    isFetching: isFetchingTop,
+  } = useGetTopChartsQuery(defaultCountry, { skip: !!genreListId || hasCache });
+
   const {
     data: genreData,
-    isFetching: isFetchingGenre,
     error: genreError,
+    isFetching: isFetchingGenre,
   } = useGetSongsByGenreQuery(
-    { genre: genreListId, countryCode: defaultCountry },
+    { countryCode: defaultCountry, genre: genreListId },
     { skip: !genreListId || hasCache },
   );
+
   let data = genreListId ? genreData : topData;
   const isFetching = genreListId ? isFetchingGenre : isFetchingTop;
   const error = genreListId ? genreError : topError;
@@ -52,33 +62,31 @@ const Discover = () => {
     if (data) {
       try {
         localStorage.setItem(cacheKey, JSON.stringify(data));
-      } catch (e) {
-        // 忽略缓存异常
+      } catch {
+        // Ignore cache write failures.
       }
     }
   }, [data, cacheKey]);
 
-  // 从缓存读取作为回退
   if (!data) {
     try {
       const cached = localStorage.getItem(cacheKey);
       if (cached) data = JSON.parse(cached);
-    } catch (e) {
-      // 忽略解析异常
+    } catch {
+      // Ignore cache read failures.
     }
   }
 
-  // 安全处理数据：确保songs始终是数组
   const songs = Array.isArray(data) ? data : (data?.tracks ?? []);
-  /* console.log('songs', JSON.stringify(songs,null,2)); */
+
   if (isFetching) return <Loader title="Loading songs..." />;
   if (error) return <Error />;
 
   return (
-    <div className="flex flex-col  h-screen gap-2">
-      <div ref={divRef} className="w-full flex flex-col gap-2">
+    <div className="flex h-screen flex-col gap-2">
+      <div ref={divRef} className="flex w-full flex-col gap-2">
         <div className="mt-4 flex items-center justify-between gap-3">
-          <h2 className="font-bold text-3xl text-white">  Discover {genreListId || 'Top'}</h2>
+          <h2 className="font-bold text-3xl text-white">Discover {genreListId || 'Top'}</h2>
           <a
             href="/project-docs/情绪团子工作汇报.html"
             target="_blank"
@@ -89,13 +97,24 @@ const Discover = () => {
           </a>
         </div>
 
-        {/* 音乐流派选择下拉框 */}
+        <section className="discover-agent-status" aria-label="今日情绪团子状态">
+          <div>
+            <span>{hasHandoverToday ? '今日已接管' : '等待今日接管'}</span>
+            <strong>
+              {emotionState.label}
+              {' · '}
+              {actionState.label}
+            </strong>
+          </div>
+          <p>{effectsEnabled ? '多模态陪听特效开启' : '多模态陪听特效已关闭'}</p>
+        </section>
+
         <select
-          onChange={(e) => {
-            dispatch(selectGenreListId(e.target.value));
+          onChange={(event) => {
+            dispatch(selectGenreListId(event.target.value));
           }}
           value={genreListId ?? ''}
-          className="bg-black text-gray-300 rounded-lg p-3 outline-none"
+          className="rounded-lg bg-black p-3 text-gray-300 outline-none"
         >
           <option value="">推荐榜单</option>
           {genres.map((genre) => (
@@ -106,30 +125,17 @@ const Discover = () => {
         </select>
       </div>
 
-      {/* 歌曲列表区域（flex 多行换行） */}
-      {/* <div className="flex flex-row flex-wrap gap-4">
-        {songs.map((song) => (
-          <SongCard
-            data={songs}
-            song={song}
-            i={song.id}
-            isPlaying={isPlaying}
-            activeSong={activeSong}
-          />
-        ))}
-      </div> */}
-      <div className="flex  flex-1">
+      <div className="flex flex-1">
         <AutoSizer>
           {({ height, width }) => {
             const cardWidth = 160;
             const cardHeight = 220;
             const gap = 20;
-
             const columnWidth = cardWidth + 10;
             const rowHeight = cardHeight + gap;
-
-            const columnCount = Math.floor(width / columnWidth) || 1; // 每个卡片大约180px宽
+            const columnCount = Math.floor(width / columnWidth) || 1;
             const rowCount = Math.ceil(songs.length / columnCount);
+
             return (
               <Grid
                 columnCount={columnCount}
@@ -143,14 +149,15 @@ const Discover = () => {
                   const songIndex = rowIndex * columnCount + columnIndex;
                   const song = songs[songIndex];
                   if (!song) return null;
+
                   return (
                     <div style={style} key={song.id} className="p-2">
                       <SongCard
+                        activeSong={activeSong}
                         data={songs}
-                        song={song}
                         i={song.id}
                         isPlaying={isPlaying}
-                        activeSong={activeSong}
+                        song={song}
                       />
                     </div>
                   );
