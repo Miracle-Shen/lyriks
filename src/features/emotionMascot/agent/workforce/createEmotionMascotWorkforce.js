@@ -9,14 +9,19 @@ import { multimodalEffectSkill } from '../skills/multimodalEffectSkill';
 import { playlistSkill } from '../skills/playlistSkill';
 import { socialSkill } from '../skills/socialSkill';
 import { staminaSkill } from '../skills/staminaSkill';
+import { taskPlanningSkill } from '../skills/taskPlanningSkill';
 import { todayHandoverSkill } from '../skills/todayHandoverSkill';
+import { webResearchSkill } from '../skills/webResearchSkill';
+import { runChatWorkflow } from '../workflows/chatWorkflow';
 import { runDiaryWorkflow } from '../workflows/diaryWorkflow';
 import { runEmotionSelectionWorkflow } from '../workflows/emotionSelectionWorkflow';
+import { runHandoverStartWorkflow } from '../workflows/handoverStartWorkflow';
 import { runMoodHandoverWorkflow } from '../workflows/moodHandoverWorkflow';
 import { runMultimodalEffectWorkflow } from '../workflows/multimodalEffectWorkflow';
 import { runPlaylistWorkflow } from '../workflows/playlistWorkflow';
 import { runSocialWorkflow } from '../workflows/socialWorkflow';
 import { runStaminaWorkflow } from '../workflows/staminaWorkflow';
+import { runWebResearchWorkflow } from '../workflows/webResearchWorkflow';
 
 const createWorkflowRuntime = () => {
   const skillRegistry = createSkillRegistry([
@@ -26,7 +31,9 @@ const createWorkflowRuntime = () => {
     playlistSkill,
     socialSkill,
     staminaSkill,
+    taskPlanningSkill,
     todayHandoverSkill,
+    webResearchSkill,
   ]);
   const subAgents = createMascotSubAgents(skillRegistry);
 
@@ -67,10 +74,14 @@ export const createEmotionMascotWorkforce = () => {
       };
 
       switch (workflowName) {
+        case mascotWorkflows.chat:
+          return runChatWorkflow(workflowArgs);
         case mascotWorkflows.diary:
           return runDiaryWorkflow(workflowArgs);
         case mascotWorkflows.emotionSelection:
           return runEmotionSelectionWorkflow(workflowArgs);
+        case mascotWorkflows.handoverStart:
+          return runHandoverStartWorkflow(workflowArgs);
         case mascotWorkflows.moodHandover:
           return runMoodHandoverWorkflow(workflowArgs);
         case mascotWorkflows.multimodalEffect:
@@ -81,10 +92,13 @@ export const createEmotionMascotWorkforce = () => {
           return runSocialWorkflow(workflowArgs);
         case mascotWorkflows.stamina:
           return runStaminaWorkflow(workflowArgs);
+        case mascotWorkflows.taskPlanning:
+          return runtime.subAgents.task.run('taskPlanning', workflowInput);
+        case mascotWorkflows.webResearch:
+          return runWebResearchWorkflow(workflowArgs);
         default:
           throw new Error(`Unknown mascot workflow: ${workflowName}`);
       }
     },
   };
 };
-

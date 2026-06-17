@@ -24,6 +24,7 @@ export const buildMascotSessionContext = ({
   isPlaying = false,
   isSettingsOpen = false,
   page = 'discover',
+  taskID = null,
   visualState = {},
 } = {}) => {
   const emotion = getEmotionById(emotionId);
@@ -42,6 +43,7 @@ export const buildMascotSessionContext = ({
       isPlaying,
       song: getSongContext(activeSong),
     },
+    taskID,
     timeBand,
     ui: {
       isDragging,
@@ -50,4 +52,3 @@ export const buildMascotSessionContext = ({
     },
   };
 };
-

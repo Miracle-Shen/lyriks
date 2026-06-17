@@ -3,7 +3,12 @@ const fallbackSongIds = ['song_enter_1', 'song_hold_1', 'song_close_1'];
 export const playlistSkill = {
   description: 'Create a staged emotional listening journey from candidate songs.',
   name: 'playlist',
-  run({ candidateSongs = [], sessionContext, targetEmotionId = null }) {
+  run({
+    candidateSongs = [],
+    sessionContext,
+    targetEmotionId = null,
+    taskID = sessionContext.taskID,
+  }) {
     const songIds = candidateSongs.length
       ? candidateSongs.map((song) => song.id ?? song.key ?? song.attributes?.playParams?.id).filter(Boolean)
       : fallbackSongIds;
@@ -30,8 +35,7 @@ export const playlistSkill = {
         },
       ],
       playlistTitle: `${sessionContext.emotion.label} · ${sessionContext.action.shortLabel}`,
-      requiresConfirmation: true,
+      taskID,
     };
   },
 };
-

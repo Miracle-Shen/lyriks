@@ -24,10 +24,16 @@ const getNextPlan = (currentPlan) => {
 
 const AgentHandoverBubble = ({
   actionState,
+  activeSong,
+  effectsEnabled,
   emotionState,
+  getSessionContext,
   isDiscoverPage,
+  isPlaying,
   isSettingsOpen,
   onOpenSettings,
+  setAgentTask,
+  taskID,
 }) => {
   const {
     actionId,
@@ -44,6 +50,7 @@ const AgentHandoverBubble = ({
     message: '要不要让团子接管今天的听歌状态？',
     reason: '接管后才会启动 Agent loop，并根据你的选择持续流转。',
   }));
+  const [isStarting, setIsStarting] = useState(false);
   const shouldShow = isDiscoverPage && !isSettingsOpen && handoverDate !== todayKey;
 
   useEffect(() => {
@@ -75,32 +82,79 @@ const AgentHandoverBubble = ({
 
   if (!isVisible || !plan) return null;
 
-  const handleAccept = (event) => {
-    event.stopPropagation();
-    const handoverPlan = runTodayHandoverWorkflow({
-      actionId,
-      emotionId,
+  const startHandover = async ({
+    openSettingsAfter = false,
+    source = 'mascot_handover_accepted',
+  } = {}) => {
+    if (isStarting || taskID) return;
+
+    setIsStarting(true);
+    const baseHandoverPlan = runTodayHandoverWorkflow({
+      actionId: plan.actionId,
+      emotionId: plan.emotionId,
       handoverDate,
       page: 'discover',
     });
-    applyAgentState(handoverPlan);
-    markTodayHandover('accepted');
-    startMascotAgentLoop(buildMascotChatEvent({
-      option: {
-        description: handoverPlan.reason,
-        id: 'accepted',
-        label: '接管',
-      },
-      slot: 'handover',
-      source: 'mascot_handover_accepted',
-      state: {
-        actionLabel: getActionById(handoverPlan.actionId).label,
-        emotionLabel: getEmotionById(handoverPlan.emotionId).label,
-      },
-    })).catch((error) => {
+    const handoverPlan = {
+      ...baseHandoverPlan,
+      actionId: plan.actionId,
+      emotionId: plan.emotionId,
+      message: plan.message,
+      reason: plan.reason,
+    };
+
+    try {
+      const result = await startMascotAgentLoop(buildMascotChatEvent({
+        activeSong,
+        handoverPlan,
+        option: {
+          description: handoverPlan.reason,
+          id: 'accepted',
+          label: openSettingsAfter ? '接管后自选' : '接管',
+        },
+        playback: {
+          isPlaying,
+          song: activeSong?.attributes?.name ?? '',
+        },
+        sessionContext: getSessionContext({
+          actionId: handoverPlan.actionId,
+          emotionId: handoverPlan.emotionId,
+          effectsEnabled,
+        }),
+        slot: 'handover',
+        source,
+        state: {
+          actionId: handoverPlan.actionId,
+          actionLabel: getActionById(handoverPlan.actionId).label,
+          emotionId: handoverPlan.emotionId,
+          emotionLabel: getEmotionById(handoverPlan.emotionId).label,
+        },
+        statePatch: {
+          actionId: handoverPlan.actionId,
+          emotionId: handoverPlan.emotionId,
+        },
+      }));
+
+      applyAgentState(result.initialResult ?? handoverPlan);
+      markTodayHandover('accepted');
+      setAgentTask({
+        agentReply: result.initialResult ?? handoverPlan,
+        plan: result.plan,
+        status: result.status ?? 'running',
+        taskID: result.taskID,
+      });
+      setIsVisible(false);
+      if (openSettingsAfter) onOpenSettings();
+    } catch (error) {
       console.warn('Emotion mascot Agent loop failed to start', error);
-    });
-    setIsVisible(false);
+    } finally {
+      setIsStarting(false);
+    }
+  };
+
+  const handleAccept = (event) => {
+    event.stopPropagation();
+    startHandover();
   };
 
   const handleDismiss = (event) => {
@@ -116,9 +170,10 @@ const AgentHandoverBubble = ({
 
   const handleOpenSettings = (event) => {
     event.stopPropagation();
-    markTodayHandover('customizing');
-    setIsVisible(false);
-    onOpenSettings();
+    startHandover({
+      openSettingsAfter: true,
+      source: 'mascot_handover_customizing',
+    });
   };
 
   return (
@@ -143,9 +198,14 @@ const AgentHandoverBubble = ({
       </strong>
       <span>{plan.reason}</span>
       <div className="agent-handover-actions">
-        <button type="button" className="agent-handover-primary" onClick={handleAccept}>
+        <button
+          type="button"
+          className="agent-handover-primary"
+          disabled={isStarting}
+          onClick={handleAccept}
+        >
           <HiOutlineSparkles size={16} />
-          接管
+          {isStarting ? '启动中' : '接管'}
         </button>
         <button type="button" onClick={handleShuffle} aria-label="换一个状态">
           <HiOutlineRefresh size={16} />

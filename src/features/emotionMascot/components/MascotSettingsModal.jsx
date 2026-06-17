@@ -7,6 +7,7 @@ import { mascotSettingTabs } from '../config/settingTabs';
 const MascotSettingsModal = ({
   actionState,
   actionStates,
+  agentReply,
   availableActions,
   emotionState,
   emotionStates,
@@ -20,9 +21,13 @@ const MascotSettingsModal = ({
   onSkinSuiteChange,
   skinSuite,
   skinSuites,
+  taskID,
+  taskPlan,
+  taskStatus,
   effectsEnabled,
 }) => {
   const [activeTabId, setActiveTabId] = useState(mascotSettingTabs[0].id);
+  const isTaskActive = Boolean(taskID);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -43,6 +48,7 @@ const MascotSettingsModal = ({
           items={emotionStates}
           selectedId={emotionState.id}
           onSelect={onEmotionChange}
+          getDisabled={() => !isTaskActive}
         />
       );
     }
@@ -53,7 +59,10 @@ const MascotSettingsModal = ({
           items={actionStates}
           selectedId={actionState.id}
           onSelect={onActionChange}
-          getDisabled={(action) => !availableActions.some((availableAction) => availableAction.id === action.id)}
+          getDisabled={(action) => (
+            !isTaskActive
+            || !availableActions.some((availableAction) => availableAction.id === action.id)
+          )}
         />
       );
     }
@@ -64,6 +73,7 @@ const MascotSettingsModal = ({
           items={skinSuites}
           selectedId={skinSuite.id}
           onSelect={onSkinSuiteChange}
+          getDisabled={() => !isTaskActive}
         />
       );
     }
@@ -74,6 +84,7 @@ const MascotSettingsModal = ({
           items={mascotVariants}
           selectedId={mascot.id}
           onSelect={onMascotChange}
+          getDisabled={(item) => !isTaskActive && item.id !== 'hidden'}
         />
       );
     }
@@ -122,11 +133,26 @@ const MascotSettingsModal = ({
           <button
             type="button"
             className={`emotion-mascot-switch ${effectsEnabled ? 'is-on' : ''}`}
+            disabled={!isTaskActive}
             aria-pressed={effectsEnabled}
             onClick={() => onEffectsEnabledChange(!effectsEnabled)}
           >
             <span />
           </button>
+        </div>
+
+        <div className="emotion-mascot-task-row">
+          <div>
+            <strong>{taskID ? `Task ${taskID}` : '尚未接管'}</strong>
+            <span>
+              {taskID
+                ? `Workforce ${taskStatus || 'running'} · ${taskPlan?.tasks?.length ?? 0} 个子任务`
+                : '接受接管后才会启动 Agent 并生成 taskID'}
+            </span>
+          </div>
+          {agentReply?.message || agentReply?.reason ? (
+            <p>{agentReply.message || agentReply.reason}</p>
+          ) : null}
         </div>
 
         <div className="emotion-mascot-tabs" role="tablist" aria-label="情绪团子设置分类">

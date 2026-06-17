@@ -13,6 +13,42 @@ import { useGetSongsByGenreQuery, useGetTopChartsQuery } from '../redux/services
 
 const defaultCountry = 'US';
 
+const getShazamPreviewUrl = (song) => (
+  song?.hub?.actions?.find((action) => action?.type === 'uri' && action?.uri)?.uri
+  || song?.hub?.actions?.find((action) => action?.uri)?.uri
+);
+
+const normalizeSong = (song) => {
+  if (!song) return null;
+  if (song.attributes?.name) return song;
+
+  const key = song.key ?? song.id ?? song.track?.key ?? song.trackId;
+  const title = song.title ?? song.name ?? song.track?.title;
+  const subtitle = song.subtitle ?? song.artistName ?? song.track?.subtitle;
+  const coverart = song.images?.coverart ?? song.images?.background ?? song.track?.images?.coverart;
+  const previewUrl = getShazamPreviewUrl(song);
+  const artistId = song.artists?.[0]?.adamid ?? song.track?.artists?.[0]?.adamid;
+
+  const id = String(key ?? `${title ?? 'song'}_${subtitle ?? ''}`.trim());
+
+  return {
+    id,
+    href: String(key ?? ''),
+    attributes: {
+      name: title,
+      artistName: subtitle,
+      artwork: { url: coverart },
+      previews: previewUrl ? [{ url: previewUrl }] : [],
+      hasLyrics: false,
+    },
+    relationships: {
+      artists: {
+        data: artistId ? [{ id: String(artistId) }] : [],
+      },
+    },
+  };
+};
+
 const Discover = () => {
   const dispatch = useDispatch();
   const divRef = useRef(null);
@@ -77,7 +113,8 @@ const Discover = () => {
     }
   }
 
-  const songs = Array.isArray(data) ? data : (data?.tracks ?? []);
+  const rawSongs = Array.isArray(data) ? data : (data?.tracks ?? []);
+  const songs = rawSongs.map(normalizeSong).filter(Boolean);
 
   if (isFetching) return <Loader title="Loading songs..." />;
   if (error) return <Error />;
@@ -151,11 +188,11 @@ const Discover = () => {
                   if (!song) return null;
 
                   return (
-                    <div style={style} key={song.id} className="p-2">
+                    <div style={style} key={song.id || songIndex} className="p-2">
                       <SongCard
                         activeSong={activeSong}
                         data={songs}
-                        i={song.id}
+                        i={songIndex}
                         isPlaying={isPlaying}
                         song={song}
                       />

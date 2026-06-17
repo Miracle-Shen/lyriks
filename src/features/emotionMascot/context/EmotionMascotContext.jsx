@@ -42,12 +42,16 @@ export const EmotionMascotProvider = ({ children }) => {
 
     return {
       actionId,
+      agentReply: stored.agentReply ?? null,
       effectsEnabled: stored.effectsEnabled ?? true,
       emotionId,
       handoverDate: stored.handoverDate ?? null,
       handoverStatus: stored.handoverStatus ?? null,
       mascotIndex,
       skinSuiteId: stored.skinSuiteId ?? defaultSkinSuiteId,
+      taskID: stored.taskID ?? null,
+      taskPlan: stored.taskPlan ?? null,
+      taskStatus: stored.taskStatus ?? 'idle',
     };
   });
 
@@ -113,6 +117,66 @@ export const EmotionMascotProvider = ({ children }) => {
     }));
   }, []);
 
+  const applyMascotStatePatch = useCallback((patch = {}) => {
+    setState((current) => {
+      const nextEmotion = patch.emotionId
+        ? getEmotionById(patch.emotionId)
+        : getEmotionById(current.emotionId);
+      const availableActions = getAvailableActions(nextEmotion.id);
+      const nextActionId = patch.actionId && availableActions.some((action) => action.id === patch.actionId)
+        ? patch.actionId
+        : current.actionId;
+
+      return {
+        ...current,
+        actionId: availableActions.some((action) => action.id === nextActionId)
+          ? nextActionId
+          : getInitialActionId(nextEmotion.id),
+        effectsEnabled: typeof patch.effectsEnabled === 'boolean'
+          ? patch.effectsEnabled
+          : current.effectsEnabled,
+        emotionId: nextEmotion.id,
+        mascotIndex: typeof patch.mascotIndex === 'number'
+          ? patch.mascotIndex
+          : current.mascotIndex,
+        skinSuiteId: patch.skinSuiteId ?? current.skinSuiteId,
+      };
+    });
+  }, []);
+
+  const setAgentTask = useCallback(({
+    agentReply = null,
+    plan = null,
+    status = 'running',
+    taskID,
+  }) => {
+    setState((current) => ({
+      ...current,
+      agentReply,
+      taskID: taskID ?? current.taskID,
+      taskPlan: plan ?? current.taskPlan,
+      taskStatus: status,
+    }));
+  }, []);
+
+  const updateAgentReply = useCallback((agentReply, status = 'running') => {
+    setState((current) => ({
+      ...current,
+      agentReply,
+      taskStatus: status,
+    }));
+  }, []);
+
+  const clearAgentTask = useCallback(() => {
+    setState((current) => ({
+      ...current,
+      agentReply: null,
+      taskID: null,
+      taskPlan: null,
+      taskStatus: 'idle',
+    }));
+  }, []);
+
   const markTodayHandover = useCallback((handoverStatus) => {
     setState((current) => ({
       ...current,
@@ -131,22 +195,30 @@ export const EmotionMascotProvider = ({ children }) => {
   const value = useMemo(() => ({
     ...state,
     applyAgentState,
+    applyMascotStatePatch,
+    clearAgentTask,
     markTodayHandover,
     setActionId,
+    setAgentTask,
     setEffectsEnabled,
     setEmotionId,
     setMascotById,
     setSkinSuiteId,
     todayKey: getTodayKey(),
+    updateAgentReply,
   }), [
     applyAgentState,
+    applyMascotStatePatch,
+    clearAgentTask,
     markTodayHandover,
     setActionId,
+    setAgentTask,
     setEffectsEnabled,
     setEmotionId,
     setMascotById,
     setSkinSuiteId,
     state,
+    updateAgentReply,
   ]);
 
   return (
@@ -163,4 +235,3 @@ export const useEmotionMascot = () => {
   }
   return context;
 };
-

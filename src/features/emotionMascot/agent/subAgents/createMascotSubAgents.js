@@ -2,6 +2,13 @@ import { mascotAgentRoles } from '../constants';
 import { createSubAgent } from './createSubAgent';
 
 export const createMascotSubAgents = (skillRegistry) => ({
+  browser: createSubAgent({
+    description: 'Runs web research and Playwright-backed search only.',
+    name: mascotAgentRoles.browser,
+    skillNames: ['webSearch'],
+    skillRegistry,
+    systemPrompt: '只负责联网搜索和网页信息采集，不做情绪判断，不直接改变播放或团子状态。',
+  }),
   coordinator: createSubAgent({
     description: 'Main mascot coordinator. Routes user/page events to specialist agents.',
     name: mascotAgentRoles.coordinator,
@@ -51,5 +58,11 @@ export const createMascotSubAgents = (skillRegistry) => ({
     skillRegistry,
     systemPrompt: '对低落/EMO/孤独保持克制，转场必须确认。',
   }),
+  task: createSubAgent({
+    description: 'Creates taskID-scoped task and todo lists after handover.',
+    name: mascotAgentRoles.task,
+    skillNames: ['taskPlanning'],
+    skillRegistry,
+    systemPrompt: '用户确认接管后才生成 taskID 范围内的任务计划；不直接执行任务。',
+  }),
 });
-

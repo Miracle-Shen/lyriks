@@ -1001,6 +1001,42 @@ body {
   line-height: 16px;
 }
 
+.emotion-mascot-task-row {
+  display: grid;
+  gap: 6px;
+  margin: 0 20px 14px;
+  border: 1px solid rgba(34, 211, 238, 0.18);
+  border-radius: 8px;
+  background: rgba(34, 211, 238, 0.08);
+  padding: 10px 12px;
+}
+
+.emotion-mascot-task-row strong,
+.emotion-mascot-task-row span,
+.emotion-mascot-task-row p {
+  display: block;
+}
+
+.emotion-mascot-task-row strong {
+  max-width: 100%;
+  overflow: hidden;
+  color: rgba(255, 255, 255, 0.94);
+  font-size: 12px;
+  font-weight: 900;
+  line-height: 17px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.emotion-mascot-task-row span,
+.emotion-mascot-task-row p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 16px;
+}
+
 .emotion-mascot-switch {
   position: relative;
   width: 44px;
@@ -1028,6 +1064,11 @@ body {
 
 .emotion-mascot-switch.is-on span {
   transform: translateX(18px);
+}
+
+.emotion-mascot-switch:disabled {
+  cursor: not-allowed;
+  opacity: 0.48;
 }
 
 .multimodal-effect-layer {
