@@ -19,6 +19,10 @@ const writeMemory = (memory) => {
 
 export const mascotMemory = {
   appendEvent(event) {
+    const taskID = event?.payload?.taskID ?? null;
+    const type = event?.type ?? 'unknown';
+    console.info(`[Mascot][Memory] APPEND type=${type} taskID=${taskID ?? '-'}`);
+
     const memory = readMemory();
     const events = Array.isArray(memory.events) ? memory.events : [];
     const nextEvents = [
@@ -49,4 +53,3 @@ export const mascotMemory = {
     };
   },
 };
-

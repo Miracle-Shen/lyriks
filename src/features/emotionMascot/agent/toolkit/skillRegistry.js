@@ -15,8 +15,41 @@ export const createSkillRegistry = (skills) => {
     },
 
     run(skillName, input) {
-      return this.get(skillName).run(input);
+      const startedAt = Date.now();
+      const taskID = input?.taskID ?? null;
+      const logPrefix = '[Mascot][SkillRegistry]';
+      console.info(
+        `${logPrefix} RUN skill=${skillName} taskID=${taskID ?? '-'}`
+      );
+
+      try {
+        const result = this.get(skillName).run(input);
+        if (result && typeof result.then === 'function') {
+          return result.then((resolved) => {
+            console.info(
+              `${logPrefix} OK skill=${skillName} taskID=${taskID ?? '-'} durationMs=${Date.now() - startedAt}`
+            );
+            return resolved;
+          }).catch((error) => {
+            console.error(
+              `${logPrefix} ERR skill=${skillName} taskID=${taskID ?? '-'} durationMs=${Date.now() - startedAt}`,
+              error
+            );
+            throw error;
+          });
+        }
+
+        console.info(
+          `${logPrefix} OK skill=${skillName} taskID=${taskID ?? '-'} durationMs=${Date.now() - startedAt}`
+        );
+        return result;
+      } catch (error) {
+        console.error(
+          `${logPrefix} ERR skill=${skillName} taskID=${taskID ?? '-'} durationMs=${Date.now() - startedAt}`,
+          error
+        );
+        throw error;
+      }
     },
   };
 };
-

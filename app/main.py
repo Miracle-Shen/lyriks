@@ -1,5 +1,6 @@
 import asyncio
 import json
+import logging
 import time
 import uuid
 from datetime import datetime, timezone
@@ -12,6 +13,13 @@ from pydantic import BaseModel, Field
 
 
 app = FastAPI(title="Lyriks Emotion Mascot Backend", version="0.1.0")
+
+logger = logging.getLogger("lyriks.emotion_mascot_agent")
+if not logging.getLogger().handlers:
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s %(levelname)s %(name)s %(message)s",
+    )
 
 app.add_middleware(
     CORSMiddleware,
@@ -90,6 +98,12 @@ def add_event(task_id: str, event: str, data: Dict[str, Any]) -> None:
         "event": event,
         "timestamp": now_iso(),
     })
+    logger.info(
+        "SSE event queued event=%s taskID=%s subTaskId=%s",
+        event,
+        task_id,
+        data.get("subTaskId"),
+    )
 
 
 def make_subtask(index: int, title: str, agent: str, toolkit: str, priority: int, depends_on: Optional[List[str]] = None) -> Dict[str, Any]:
@@ -165,8 +179,21 @@ def build_initial_result(session_context: Dict[str, Any], user_text: str = "") -
 
 
 def run_subtasks(task: Dict[str, Any]) -> None:
+    logger.info(
+        "Workforce subtasks start taskID=%s planId=%s tasks=%s",
+        task.get("taskID"),
+        get_nested(task, "plan", "planId", default=None),
+        len(get_nested(task, "plan", "tasks", default=[]) or []),
+    )
     for subtask in task["plan"]["tasks"]:
         subtask["status"] = "completed"
+        logger.info(
+            "Subtask completed taskID=%s subTaskId=%s agent=%s toolkit=%s",
+            task.get("taskID"),
+            subtask.get("subTaskId"),
+            subtask.get("agent"),
+            subtask.get("toolkit"),
+        )
         add_event(task["taskID"], "task.completed", {
             "agent": subtask["agent"],
             "result": {"summary": f"{subtask['title']} 已完成"},
@@ -177,6 +204,7 @@ def run_subtasks(task: Dict[str, Any]) -> None:
         "resultType": "mascot_workforce",
         "taskID": task["taskID"],
     })
+    logger.info("Workforce subtasks done taskID=%s", task.get("taskID"))
 
 
 @app.get("/health")
@@ -187,10 +215,17 @@ def health() -> Dict[str, str]:
 @app.post("/api/mascot/handover")
 def handover(payload: HandoverRequest) -> Dict[str, Any]:
     if not payload.handoverAccepted:
+        logger.info("Handover dismissed clientRequestId=%s", payload.clientRequestId)
         return {"status": "dismissed", "taskID": None}
 
     task_id = create_id("task")
     user_text = str(payload.input.get("userText") or "")
+    logger.info(
+        "Handover accepted taskID=%s clientRequestId=%s userText=%s",
+        task_id,
+        payload.clientRequestId,
+        user_text[:120],
+    )
     plan = create_plan(task_id, payload.sessionContext, user_text)
     initial_result = build_initial_result(payload.sessionContext, user_text)
     task = {
@@ -230,8 +265,31 @@ def handover(payload: HandoverRequest) -> Dict[str, Any]:
 def chat(payload: ChatRequest) -> Dict[str, Any]:
     task = TASKS.get(payload.taskID)
     if not task:
-        raise HTTPException(status_code=404, detail=f"Unknown taskID: {payload.taskID}")
+        logger.info(
+            "Chat received for unknown taskID=%s, creating placeholder task",
+            payload.taskID,
+        )
+        plan = create_plan(payload.taskID, payload.sessionContext, "")
+        initial_result = build_initial_result(payload.sessionContext, "")
+        task = {
+            "createdAt": now_iso(),
+            "initialResult": initial_result,
+            "plan": plan,
+            "sessionContext": payload.sessionContext,
+            "status": "running",
+            "taskID": payload.taskID,
+            "updatedAt": now_iso(),
+        }
+        TASKS[payload.taskID] = task
+        add_event(payload.taskID, "task.created", {"planId": plan["planId"], "taskID": payload.taskID})
+        add_event(payload.taskID, "task.started", {"agent": "task_agent", "taskID": payload.taskID})
 
+    logger.info(
+        "Chat event received taskID=%s messageType=%s statePatch=%s",
+        payload.taskID,
+        payload.messageType,
+        payload.statePatch,
+    )
     state = get_state(task.get("sessionContext", {}), payload.statePatch)
     task["sessionContext"] = {
         **task.get("sessionContext", {}),
@@ -293,15 +351,18 @@ def get_task(taskID: str) -> Dict[str, Any]:
 def cancel_task(taskID: str) -> Dict[str, Any]:
     task = TASKS.get(taskID)
     if not task:
+        logger.info("Cancel ignored (unknown task) taskID=%s", taskID)
         return {"status": "stopped", "taskID": taskID}
     task["status"] = "stopped"
     task["updatedAt"] = now_iso()
     add_event(taskID, "task.stopped", {"taskID": taskID})
+    logger.info("Task stopped taskID=%s", taskID)
     return {"status": "stopped", "taskID": taskID}
 
 
 @app.post("/api/mascot/subtasks/{subTaskId}/retry")
 def retry_subtask(subTaskId: str) -> Dict[str, Any]:
+    logger.info("Subtask retry requested subTaskId=%s", subTaskId)
     for task in TASKS.values():
         for subtask in task["plan"]["tasks"]:
             if subtask["subTaskId"] == subTaskId:
@@ -318,6 +379,7 @@ def retry_subtask(subTaskId: str) -> Dict[str, Any]:
 @app.get("/api/mascot/events")
 async def mascot_events(taskID: str = Query(...)) -> StreamingResponse:
     async def event_stream():
+        logger.info("SSE subscribe taskID=%s", taskID)
         sent = 0
         while True:
             events = EVENTS.get(taskID, [])
@@ -329,6 +391,7 @@ async def mascot_events(taskID: str = Query(...)) -> StreamingResponse:
             task = TASKS.get(taskID)
             if task and task.get("status") in {"stopped", "failed"}:
                 yield f"event: task.closed\ndata: {json.dumps({'taskID': taskID}, ensure_ascii=False)}\n\n"
+                logger.info("SSE closed taskID=%s status=%s", taskID, task.get("status"))
                 break
 
             yield f"event: heartbeat\ndata: {json.dumps({'taskID': taskID, 'timestamp': now_iso()}, ensure_ascii=False)}\n\n"
@@ -339,6 +402,12 @@ async def mascot_events(taskID: str = Query(...)) -> StreamingResponse:
 
 @app.post("/api/mascot/search")
 def mascot_search(payload: SearchRequest) -> Dict[str, Any]:
+    logger.info(
+        "Mascot search taskID=%s subTaskId=%s query=%s",
+        payload.taskID,
+        payload.subTaskId,
+        payload.query[:120],
+    )
     result_count = max(1, min(payload.maxResults, 8))
     sources = [
         {

@@ -23,6 +23,31 @@ import { runSocialWorkflow } from '../workflows/socialWorkflow';
 import { runStaminaWorkflow } from '../workflows/staminaWorkflow';
 import { runWebResearchWorkflow } from '../workflows/webResearchWorkflow';
 
+const createTraceId = () => (
+  `wf-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`
+);
+
+const pickContext = (workflowName, input, sessionContext) => {
+  const actionId = input?.actionId ?? sessionContext?.action?.id ?? null;
+  const emotionId = input?.emotionId ?? sessionContext?.emotion?.id ?? null;
+  const page = input?.page ?? sessionContext?.page ?? null;
+  const taskID = input?.taskID ?? null;
+  const userText = typeof input?.userText === 'string' ? input.userText : null;
+  const optionLabel = input?.option?.label ?? null;
+  const activeSongId = input?.activeSong?.key ?? input?.activeSong?.id ?? null;
+
+  return {
+    actionId,
+    activeSongId,
+    emotionId,
+    optionLabel,
+    page,
+    taskID,
+    userText: userText ? userText.slice(0, 120) : null,
+    workflowName,
+  };
+};
+
 const createWorkflowRuntime = () => {
   const skillRegistry = createSkillRegistry([
     diarySkill,
@@ -61,6 +86,8 @@ export const createEmotionMascotWorkforce = () => {
     },
 
     runWorkflow(workflowName, input = {}) {
+      const traceId = createTraceId();
+      const startedAt = Date.now();
       const sessionContext = input.sessionContext ?? buildMascotSessionContext(input);
       const workflowInput = {
         ...input,
@@ -73,31 +100,75 @@ export const createEmotionMascotWorkforce = () => {
         subAgents: runtime.subAgents,
       };
 
-      switch (workflowName) {
-        case mascotWorkflows.chat:
-          return runChatWorkflow(workflowArgs);
-        case mascotWorkflows.diary:
-          return runDiaryWorkflow(workflowArgs);
-        case mascotWorkflows.emotionSelection:
-          return runEmotionSelectionWorkflow(workflowArgs);
-        case mascotWorkflows.handoverStart:
-          return runHandoverStartWorkflow(workflowArgs);
-        case mascotWorkflows.moodHandover:
-          return runMoodHandoverWorkflow(workflowArgs);
-        case mascotWorkflows.multimodalEffect:
-          return runMultimodalEffectWorkflow(workflowArgs);
-        case mascotWorkflows.playlist:
-          return runPlaylistWorkflow(workflowArgs);
-        case mascotWorkflows.socialShare:
-          return runSocialWorkflow(workflowArgs);
-        case mascotWorkflows.stamina:
-          return runStaminaWorkflow(workflowArgs);
-        case mascotWorkflows.taskPlanning:
-          return runtime.subAgents.task.run('taskPlanning', workflowInput);
-        case mascotWorkflows.webResearch:
-          return runWebResearchWorkflow(workflowArgs);
-        default:
-          throw new Error(`Unknown mascot workflow: ${workflowName}`);
+      const logPrefix = `[Mascot][WF:${workflowName}]`;
+      const ctx = pickContext(workflowName, workflowInput, sessionContext);
+      console.info(`${logPrefix} START trace=${traceId}`, ctx);
+
+      try {
+        let result;
+        switch (workflowName) {
+          case mascotWorkflows.chat:
+            result = runChatWorkflow(workflowArgs);
+            break;
+          case mascotWorkflows.diary:
+            result = runDiaryWorkflow(workflowArgs);
+            break;
+          case mascotWorkflows.emotionSelection:
+            result = runEmotionSelectionWorkflow(workflowArgs);
+            break;
+          case mascotWorkflows.handoverStart:
+            result = runHandoverStartWorkflow(workflowArgs);
+            break;
+          case mascotWorkflows.moodHandover:
+            result = runMoodHandoverWorkflow(workflowArgs);
+            break;
+          case mascotWorkflows.multimodalEffect:
+            result = runMultimodalEffectWorkflow(workflowArgs);
+            break;
+          case mascotWorkflows.playlist:
+            result = runPlaylistWorkflow(workflowArgs);
+            break;
+          case mascotWorkflows.socialShare:
+            result = runSocialWorkflow(workflowArgs);
+            break;
+          case mascotWorkflows.stamina:
+            result = runStaminaWorkflow(workflowArgs);
+            break;
+          case mascotWorkflows.taskPlanning:
+            result = runtime.subAgents.task.run('taskPlanning', workflowInput);
+            break;
+          case mascotWorkflows.webResearch:
+            result = runWebResearchWorkflow(workflowArgs);
+            break;
+          default:
+            throw new Error(`Unknown mascot workflow: ${workflowName}`);
+        }
+
+        if (result && typeof result.then === 'function') {
+          return result.then((resolved) => {
+            console.info(
+              `${logPrefix} OK trace=${traceId} durationMs=${Date.now() - startedAt}`
+            );
+            return resolved;
+          }).catch((error) => {
+            console.error(
+              `${logPrefix} ERR trace=${traceId} durationMs=${Date.now() - startedAt}`,
+              error
+            );
+            throw error;
+          });
+        }
+
+        console.info(
+          `${logPrefix} OK trace=${traceId} durationMs=${Date.now() - startedAt}`
+        );
+        return result;
+      } catch (error) {
+        console.error(
+          `${logPrefix} ERR trace=${traceId} durationMs=${Date.now() - startedAt}`,
+          error
+        );
+        throw error;
       }
     },
   };
