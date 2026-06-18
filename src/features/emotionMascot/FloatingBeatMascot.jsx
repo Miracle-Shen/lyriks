@@ -29,6 +29,7 @@ const FloatingBeatMascot = () => {
   const {
     actionId,
     agentReply,
+    applyAgentState,
     clearAgentTask,
     effectsEnabled,
     emotionId,
@@ -64,6 +65,30 @@ const FloatingBeatMascot = () => {
     isPlaying,
     motionProfile: emotionState.expression.motion,
   });
+
+  useEffect(() => {
+    const handleTaskEvent = (event) => {
+      const detail = event.detail ?? {};
+      const snapshot = detail.snapshot;
+      if (!snapshot) return;
+
+      setAgentTask({
+        agentReply: snapshot.latestReply ?? agentReply,
+        plan: snapshot.plan,
+        status: snapshot.status,
+        taskID: snapshot.taskID,
+      });
+
+      if (snapshot.latestReply) {
+        applyAgentState(snapshot.latestReply);
+      }
+    };
+
+    window.addEventListener('emotion-mascot-task-event', handleTaskEvent);
+    return () => {
+      window.removeEventListener('emotion-mascot-task-event', handleTaskEvent);
+    };
+  }, [agentReply, applyAgentState, setAgentTask]);
 
   useEffect(() => {
     if (!availableActions.some((action) => action.id === actionId)) {

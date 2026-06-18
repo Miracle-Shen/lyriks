@@ -1,1 +1,1 @@
-"""Local backend for the Lyriks emotion mascot."""
+"""Lyriks backend package."""

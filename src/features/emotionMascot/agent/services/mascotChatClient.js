@@ -2,6 +2,8 @@ import { mascotWorkflows, runMascotWorkflow } from '../index';
 
 const CHAT_CONFIG_KEY = 'emotionMascot.chatConfig.v1';
 const CHAT_SESSION_KEY = 'emotionMascot.chatSession.v1';
+let mascotEventSource = null;
+let mascotEventTaskID = null;
 
 const createId = (prefix) => `${prefix}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
 
@@ -91,6 +93,64 @@ const dispatchMascotEvent = (result) => {
   window.dispatchEvent(new CustomEvent('emotion-mascot-chat-event', { detail: result }));
 };
 
+const dispatchMascotTaskEvent = (detail) => {
+  window.dispatchEvent(new CustomEvent('emotion-mascot-task-event', { detail }));
+};
+
+const closeMascotEventSource = () => {
+  if (mascotEventSource) {
+    mascotEventSource.close();
+    mascotEventSource = null;
+    mascotEventTaskID = null;
+  }
+};
+
+const fetchTaskSnapshot = async (taskID) => {
+  if (!taskID) return null;
+  try {
+    const response = await fetch(`/api/mascot/tasks/${taskID}`);
+    if (!response.ok) return null;
+    return await response.json();
+  } catch {
+    return null;
+  }
+};
+
+const subscribeMascotEvents = (taskID, sseUrl) => {
+  if (!taskID || !sseUrl) return;
+  if (mascotEventSource && mascotEventTaskID === taskID) return;
+
+  closeMascotEventSource();
+  mascotEventTaskID = taskID;
+  mascotEventSource = new EventSource(sseUrl);
+
+  const forwardEvent = async (eventName, event) => {
+    const data = event?.data ? JSON.parse(event.data) : null;
+    const shouldFetchSnapshot = eventName !== 'heartbeat';
+    const snapshot = shouldFetchSnapshot ? await fetchTaskSnapshot(taskID) : null;
+    dispatchMascotTaskEvent({
+      data,
+      event: eventName,
+      snapshot,
+      taskID,
+    });
+    if (eventName === 'task.closed') closeMascotEventSource();
+  };
+
+  ['task.created', 'task.started', 'task.progress', 'task.completed', 'task.failed', 'result.ready', 'task.stopped', 'task.closed', 'heartbeat'].forEach((eventName) => {
+    mascotEventSource.addEventListener(eventName, (event) => {
+      forwardEvent(eventName, event).catch(() => {});
+    });
+  });
+
+  mascotEventSource.onerror = () => {
+    dispatchMascotTaskEvent({
+      event: 'sse.error',
+      taskID,
+    });
+  };
+};
+
 const normalizeHandoverResult = (result, fallbackTaskID) => {
   const taskID = result?.taskID ?? fallbackTaskID;
   if (taskID) {
@@ -177,6 +237,7 @@ export const startMascotAgentLoop = async (event) => {
 
   try {
     const result = normalizeHandoverResult(await postMascotLoop('/api/mascot/handover', body), taskID);
+    subscribeMascotEvents(result.taskID, result.sseUrl);
     dispatchMascotEvent(result);
     return result;
   } catch (error) {
@@ -210,6 +271,8 @@ export const dispatchMascotChatEvent = async (event) => {
 
   try {
     const result = await postMascotLoop('/api/mascot/chat', body);
+    const sseUrl = session.sseUrl ?? `/api/mascot/events?taskID=${taskID}`;
+    subscribeMascotEvents(taskID, sseUrl);
     dispatchMascotEvent(result);
     return result;
   } catch (error) {
@@ -253,6 +316,7 @@ export const stopMascotChatLoop = async (event = {}) => {
     }
   }
 
+  closeMascotEventSource();
   window.localStorage.removeItem(CHAT_SESSION_KEY);
   dispatchMascotEvent(result);
   return result;
